@@ -61,18 +61,13 @@
       <ul class="nav">
         <!-- 管理员侧边栏，加上show即可显示 -->
         <ul class="sub-nav show" id="adminNav">
-          <li><a href="#" data-id=1><i class="fa fa-folder"></i> 借阅管理</a></li>
-          <li><a href="#" data-id=2><i class="fa fa-book"></i> 图书管理</a></li>
           <li><a href="#" data-id=3><i class="fa fa-address-card"></i>读者管理</a></li>
-          <li><a href="#" data-id=4><i class="fa fa-file"></i> 类型管理</a></li>
-          <li><a href="#" data-id=5><i class="fa fa-bell"></i> 公告管理</a></li>
           <li><a href="#" data-id=6><i class="fa fa-user-circle"></i> 员工管理</a></li>
         </ul>
         <!-- 员工侧边栏，加上show即可显示 -->
         <ul class="sub-nav" id="empNav">
           <li><a href="#" data-id=1><i class="fa fa-folder"></i> 借阅管理</a></li>
           <li><a href="#" data-id=2><i class="fa fa-book"></i> 图书管理</a></li>
-          <li><a href="#" data-id=3><i class="fa fa-address-card"></i>读者管理</a></li>
           <li><a href="#" data-id=4><i class="fa fa-file"></i> 类型管理</a></li>
           <li><a href="#" data-id=5><i class="fa fa-bell"></i> 公告管理</a></li>
         </ul>
@@ -498,13 +493,13 @@
         </div>
         <!-- 管理员读者管理界面 -->
         <div class="wrap" id="contain3">
-          <div class="anc-search-bar">
-            <select>
+          <div class="anc-search-bar" id="searchBar3">
+            <!-- <select>
               <option value="">违规状态 请选择</option>
               <option value="正常">正常</option>
               <option value="封禁">封禁</option>
-            </select>
-            <p>注册时间</p><input type="text" placeholder="请输入时间">
+            </select> -->
+            <!-- <p>注册时间</p><input type="text" placeholder="请输入时间"> -->
             <p>姓名</p><input type="text" placeholder="请输入姓名">
             <button class="btn-search">立即查询</button>
             <button class="btn-add" id="addReaderBtn">新增读者</button>
@@ -514,12 +509,9 @@
             <thead>
               <tr>
                 <!-- <th><input type="checkbox"></th> -->
-                <th>头像</th>
                 <th>用户名</th>
+                <th>性别</th>
                 <th>手机号</th>
-                <th>邮箱</th>
-                <th>违规状态</th>
-                <th>注册时间</th>
                 <th>操作</th>
               </tr>
             </thead>
@@ -580,19 +572,21 @@
             <button class="prev-page">
               <i class="fa fa-angle-left"></i>
             </button>
-            <input type="text" value="1" size="2">
+            <input class="pageIndex" type="text" value="1" size="2" readonly>
             <button class="next-page">
               <i class="fa fa-angle-left" style="transform: rotate(180deg);"></i>
             </button>
             <span>到第</span>
-            <input type="text" value="1" size="2">
+            <input class="toPageIndex" type="text" value="1" size="2">
             <span>页</span>
             <button class="page-confirm">确定</button>
-            <span>共5条</span>
+            <span>共</span>
+            <span class="totalNum">5</span>
+            <span>条</span>
             <select>
-              <option value="15">15条/页</option>
-              <option value="10">10条/页</option>
               <option value="5">5条/页</option>
+              <option value="10">10条/页</option>
+              <option value="15">15条/页</option>
             </select>
           </div>
           <div id="addReaderModal" class="modal">
@@ -632,7 +626,7 @@
       
         <!-- 管理员类型管理界面 -->
         <div class="wrap" id="contain4">
-          <div class="anc-search-bar">
+          <div class="anc-search-bar" id="searchBar4">
             <p>类别名</p><input type="text" placeholder="书籍类别名">
             <button class="btn-search">立即查询</button>
             <button class="btn-add" id="addTypeBtn">新增书籍类别</button>
@@ -828,18 +822,18 @@
         </div>
         <!-- 管理员管理员管理界面 -->
         <div class="wrap" id="contain6">
-          <div class="search-bar">
-            <p>用户名</p><input type="text" placeholder="请输入用户名">
-            <select>
+          <div class="search-bar" id="searchBar6">
+            <p>用户名</p><input type="text" placeholder="请输入员工名称">
+            <!-- <select>
               <option value="">管理员类型 请选择</option>
               <option value="管理员">管理员</option>
               <option value="工作人员">工作人员</option>
-            </select>
+            </select> -->
             <button class="btn-search">搜索</button>
           </div>
           <div class="action-buttons">
             <button id="addAdminBtn" class="btn-borrow">添加</button>
-            <button class="btn-return">删除</button>
+            <!-- <button class="btn-return">删除</button> -->
           </div>
           <table class="book-table">
             <thead>
@@ -876,19 +870,21 @@
             <button class="prev-page">
               <i class="fa fa-angle-left"></i>
             </button>
-            <input type="text" value="1" size="2">
+            <input class="pageIndex" type="text" value="1" size="2" readonly>
             <button class="next-page">
               <i class="fa fa-angle-left" style="transform: rotate(180deg);"></i>
             </button>
             <span>到第</span>
-            <input type="text" value="1" size="2">
+            <input class="toPageIndex" type="text" value="1" size="2">
             <span>页</span>
             <button class="page-confirm">确定</button>
-            <span>共5条</span>
+            <span>共</span>
+            <span class="totalNum">5</span>
+            <span>条</span>
             <select>
-              <option value="15">15条/页</option>
-              <option value="10">10条/页</option>
               <option value="5">5条/页</option>
+              <option value="10">10条/页</option>
+              <option value="15">15条/页</option>
             </select>
           </div>
           <div id="addAdminModal" class="modal">
@@ -1410,8 +1406,8 @@
       dropdown.classList.remove('show')
     })
     const adminnavs = document.querySelector('.sub-nav#adminNav')
-    let showNavs=document.querySelector('#contain1')
-    
+    let showNavs=document.querySelector('#contain3')
+    document.querySelector('.head p').innerHTML = document.querySelector('#adminNav a:first-child').innerHTML;
     adminnavs.addEventListener('click', function (e) {
         if (e.target.tagName == 'A') {
 
@@ -1425,6 +1421,7 @@
       })
     const empnavs = document.querySelector('.sub-nav#empNav')
     let empshowNavs=document.querySelector('#contain1')
+    document.querySelector('.head p').innerHTML = document.querySelector('#empNav a:first-child').innerHTML;
     empnavs.addEventListener('click', function (e) {
         if (e.target.tagName == 'A') {
 

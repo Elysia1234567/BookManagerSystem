@@ -154,14 +154,18 @@
             // 如果所有验证都通过，则跳转到指定页面
             if (isNameValid && isPwdValid && isSecValid) {
                 console.log(getType())
+                const loginData={
+                    userName:username.value,
+                        password:pwd.value,
+                        type:getType()
+                }
                 axios({
                     url:'http://localhost:8088/login/login',
                     method:'post',
-                    params:{
-                        userName:username.value,
-                        password:pwd.value,
-                        type:getType()
-                    }
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+                    data:JSON.stringify(loginData)
                 }).then(result=>{
                     console.log(result)
                     if(result.data.code=='1'){

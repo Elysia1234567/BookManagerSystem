@@ -16,8 +16,24 @@ const fEmpName=fixAdminModal.querySelector('[placeholder=请输入员工名称]'
 const fEmpphone=fixAdminModal.querySelector('[placeholder=请输入员工电话号码]')
 const fEmpSexRadio=fixAdminModal.querySelector('input[name="gender"]:checked')
 const tbody6 = document.querySelector('#contain6 tbody')
-const arr6 = JSON.parse(localStorage.getItem('adminData')) || []
-
+const searchBar6=document.querySelector('#searchBar6')
+const searchEmpName=searchBar6.querySelector('input')
+const searchEmpBtn=searchBar6.querySelector('button')
+const pagination6=document.querySelector('#contain6 .pagination')
+const prevBtn6=pagination6.querySelector('.prev-page')
+const nextBtn6=pagination6.querySelector('.next-page')
+const pageIndex6=pagination6.querySelector('.pageIndex')
+const toPageIndex6=pagination6.querySelector('.toPageIndex')
+const pageConfirmBtn6=pagination6.querySelector('.page-confirm')
+const pageSelect6=pagination6.querySelector('select')
+const totalNumArea6=pagination6.querySelector('.totalNum')
+let targetEmpName
+let arr6 
+let tpage6=1
+let pageSize6=5
+let totalNum6
+let limitPage6
+// = JSON.parse(localStorage.getItem('adminData')) || []
 
 let currentEditRow6 //存储当前正在编辑的行
 
@@ -36,8 +52,104 @@ admincancelBtn.addEventListener('click', function () {
     addAdminModal.style.display = 'none';
 });
 
+searchEmpBtn.addEventListener('click',function(){
+  targetEmpName=searchEmpName.value
+  tpage6=1
+    pageIndex6.value=tpage6
+  render6()
+})
+
+prevBtn6.addEventListener('click',function(){
+  if(tpage6>1){
+    tpage6--
+    pageIndex6.value=tpage6
+    render6()
+  }
+})
+nextBtn6.addEventListener('click',function(){
+  if(tpage6<limitPage6){
+    tpage6++
+    pageIndex6.value=tpage6
+    render6()
+  }
+})
+pageConfirmBtn6.addEventListener('click',function(){
+  const targetPage=parseInt(toPageIndex6.value)
+  console.log(targetPage)
+  if(targetPage>0&&targetPage<=limitPage6){
+    tpage6=targetPage
+    pageIndex6.value=tpage6
+    pageSize6=pageSelect6.value
+    render6()
+  }else{
+    alert('请输入正确的页码')
+  }
+  
+})
+
+pageSelect6.addEventListener('change',function(){
+  pageSize6=pageSelect6.value
+  tpage6=1
+    pageIndex6.value=tpage6
+    render6()
+})
+
 fixAdmincancelBtn.addEventListener('click',function(){
   fixAdminModal.style.display = 'none'
+})
+
+fixAdminsubmitBtn.addEventListener('click',function(e){
+  e.preventDefault()
+  const nfEmppwd=fEmppwd.value
+  const nfEmpName=fEmpName.value
+  const nfEmpphone=fEmpphone.value
+  const nfEmpSexRadio=fEmpSexRadio.value
+  if(!nfEmpName||!nfEmpSexRadio||!nfEmppwd||!nfEmpphone){
+    alert('输入的内容不能为空')
+  }else{
+    if(currentEditRow6){
+      const empid=currentEditRow6.dataset.empid
+      console.log(empid)
+      const requestData = {
+        'id': empid,
+        'password': nfEmppwd.value,
+        'name': nfEmpName.value,
+        'phone': nfEmpphone.value,
+        'sex': nfEmpSexRadio.value
+      }
+      axios({
+        url: 'http://localhost:8088/admin/employee',
+        method: 'put',
+        headers: {
+          "Content-Type":"application/json",
+          'adminToken': `${localStorage.getItem('id-token')}`
+        },
+        data: JSON.stringify(requestData)
+      }).then(result => {
+        //console.log(result)
+        if (result.data.code == '1') {
+          // arr6.push({
+          //   content:EmpName.value,
+          // })
+          render6()
+          fixAdminForm.reset()
+          // localStorage.setItem('adminData',JSON.stringify(arr6))
+          // 隐藏弹窗
+          fixAdminModal.style.display = 'none';
+        }
+        else {
+          alert('新增失败')
+        }
+
+      }).catch(error => {
+        //console.log(error)
+
+        //alert(error.response.data.message)
+        alert('网络连接错误')
+      })
+    }
+    
+  }
 })
 
 adminsubmitBtn.addEventListener('click', function (e) {
@@ -56,18 +168,19 @@ adminsubmitBtn.addEventListener('click', function (e) {
         url: 'http://localhost:8088/admin/employee',
         method: 'post',
         headers: {
+          "Content-Type":"application/json",
           'adminToken': `${localStorage.getItem('id-token')}`
         },
-        data: requestData
+        data: JSON.stringify(requestData)
       }).then(result => {
         console.log(result)
         if (result.data.code == '1') {
-          arr6.push({
-            content:EmpName.value,
-          })
+          // arr6.push({
+          //   content:EmpName.value,
+          // })
           render6()
           addAdminForm.reset()
-          localStorage.setItem('adminData',JSON.stringify(arr6))
+          // localStorage.setItem('adminData',JSON.stringify(arr6))
           // 隐藏弹窗
           addAdminModal.style.display = 'none';
         }
@@ -88,21 +201,46 @@ adminsubmitBtn.addEventListener('click', function (e) {
   });
 
 function render6() {
+  
   axios({
-    url:'http://localhost:8088/admin/employee/page',
+    url:`http://localhost:8088/admin/employee/page`,
     method:'get',
     headers: {
       'adminToken': `${localStorage.getItem('id-token')}`
     },
     params:{
-        name:"遗骸",
-        page:1,
-        pageSize:5
+      name:targetEmpName,
+      page:tpage6,
+        pageSize:pageSize6
     }
+    
 }).then(result=>{
-    console.log(result)
+    // console.log(result)
     if(result.data.code=='1'){
-       
+      totalNumArea6.innerHTML=result.data.data.total
+      totalNum6=parseInt(result.data.data.total)
+      pageSize6=parseInt(pageSelect6.value)
+      limitPage6=Math.ceil(totalNum6/pageSize6)
+      arr6=[]
+      
+      for(let i=0;i<result.data.data.records.length;i++){
+        arr6.push({
+          id:result.data.data.records[i].id,
+          content:result.data.data.records[i].name
+        })
+      }
+      //console.log(arr6)
+      const trArr = arr6.map(function (ele, index) {
+        return `<tr data-id="${index}"data-empid=${ele.id}>
+          <td id='tableContent'>${ele.content}</td>
+          <td>
+            <button class="btn-abnormal-return">修改</button><button class="btn-delete-record">删除</button>
+          </td>
+        </tr>
+        `
+    })
+    //console.log(trArr)
+    tbody6.innerHTML = trArr.join('')
     }
     else{
         alert(result.data.msg)
@@ -113,19 +251,10 @@ function render6() {
     //alert(error.response.data.message)
     alert('网络连接错误')
 })
-    const trArr = arr6.map(function (ele, index) {
-        return `<tr data-id="${index}">
-          <td id='tableContent'>${ele.content}</td>
-          <td>
-            <button class="btn-abnormal-return">修改</button><button class="btn-delete-record">删除</button>
-          </td>
-        </tr>
-        `
-    })
-    //console.log(trArr)
-    tbody6.innerHTML = trArr.join('')
+    
 
 }
+if(localStorage.getItem('token')=='admin')
 render6()
 
 tbody6.addEventListener('click', function(e) {
