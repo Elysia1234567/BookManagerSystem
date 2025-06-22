@@ -69,15 +69,15 @@
           <li><a href="#" data-id=1><i class="fa fa-folder"></i> 借阅管理</a></li>
           <li><a href="#" data-id=2><i class="fa fa-book"></i> 图书管理</a></li>
           <li><a href="#" data-id=4><i class="fa fa-file"></i> 类型管理</a></li>
-          <li><a href="#" data-id=5><i class="fa fa-bell"></i> 公告管理</a></li>
+          <!-- <li><a href="#" data-id=5><i class="fa fa-bell"></i> 公告管理</a></li> -->
         </ul>
         <!-- 读者侧边栏，加上show即可显示 -->
         <ul class="sub-nav" id="readerNav">
-          <li><a href="#" data-id="7"><i class="fa fa-folder"></i> 借阅管理</a></li>
-          <li><a href="#" data-id="8"><i class="fa fa-book"></i> 图书管理</a></li>
-          <li><a href="#" data-id="9"><i class="fa fa-address-card"></i> 收藏管理</a></li>
+          <li><a href="#" data-id="7"><i class="fa fa-folder"></i> 借阅查询</a></li>
+          <li><a href="#" data-id="8"><i class="fa fa-book"></i> 图书查询</a></li>
+          <!-- <li><a href="#" data-id="9"><i class="fa fa-address-card"></i> 收藏管理</a></li>
           <li><a href="#" data-id="10"><i class="fa fa-bell"></i> 历史记录</a></li>
-          <li><a href="#" data-id="11"><i class="fa fa-user-circle"></i> 借阅排行榜</a></li>
+          <li><a href="#" data-id="11"><i class="fa fa-user-circle"></i> 借阅排行榜</a></li> -->
         </ul>
       </ul>
     </div>
@@ -90,41 +90,38 @@
       <!-- 管理员借阅管理界面 -->
       <div class="wrap-container">
         <div class="wrap" id="contain1">
-          <div class="search-bar">
-            <input type="text" placeholder="借书卡">
+          <div class="search-bar" id="searchBar1">
+            <!-- <input type="text" placeholder="借书卡"> -->
             <input type="text" placeholder="图书名称">
-            <select>
+            <select id="borrowBookReturnSelect">
               <option value="">归还类型 请选择</option>
-              <option value="正常还书">正常还书</option>
-              <option value="延迟还书">延迟还书</option>
-              <option value="丢失赔书">丢失赔书</option>
-              <option value="破损还书">破损还书</option>
-              <option value="异常还书">异常还书</option>
+              <option value="未归还">未归还</option>
+              <option value="待确认">待确认</option>
+              <option value="已归还">已归还</option>
             </select>
-            <select>
-              <option value="">图书类型 请选择</option>
-              <option value="文学">文学</option>
-              <option value="经济">经济</option>
-              <option value="科技">科技</option>
+            <select   id="borrowBookTypeSelect">
+              <option value=null>图书类型 请选择</option>
             </select>
-            <button>搜索</button>
+            <button class="btn-search">搜索</button>
           </div>
           <div class="action-buttons">
-            <button class="btn-borrow" id="addBorrowBtn">借书</button>
-            <button class="btn-return">还书</button>
+            <button class="btn-borrow" id="addBorrowBtn">借书申请</button>
+            <button class="btn-return" id="addReturnBtn">还书申请</button>
             <button class="btn-delete">删除</button>
           </div>
           <table class="book-table">
             <thead>
               <tr>
-                <th><input type="checkbox"></th>
-                <th>图书名称</th>
-                <th>类型</th>
-                <th>借书卡</th>
+                <!-- <th><input type="checkbox"></th> -->
                 <th>借阅人</th>
-                <th>借阅时间</th>
+                <th>图书名称</th>
+                <th>出版社信息</th>
+                <th>版本信息</th>
+                <th>作者</th>
+                <th>图书类别</th>
+                <th>结束时间</th>
+                <th>应还时间</th>
                 <th>还书时间</th>
-                <th>还书类型</th>
                 <th>操作</th>
               </tr>
             </thead>
@@ -141,69 +138,28 @@
                 <td><button class="btn-abnormal-return">还书</button><button class="btn-delete-record">删除</button>
                 </td>
               </tr>
-              <tr>
-                <td><input type="checkbox"></td>
-                <td>妄想症</td>
-                <td>小说</td>
-                <td>8120116041</td>
-                <td>泠珞</td>
-                <td>2021 - 04 - 05 21:35:35</td>
-                <td>2021 - 04 - 05 21:35:47</td>
-                <td><span class="status-delay-return">延迟还书</span></td>
-                <td><button class="btn-delete-record">删除</button></td>
-              </tr>
-              <tr>
-                <td><input type="checkbox"></td>
-                <td>摇曳百合</td>
-                <td>小说</td>
-                <td>8120116042</td>
-                <td>阿卡林</td>
-                <td>2021 - 04 - 04 21:50:22</td>
-                <td>2021 - 04 - 04 21:50:32</td>
-                <td><span class="status-lost-book">丢失赔书</span></td>
-                <td><button class="btn-delete-record">删除</button></td>
-              </tr>
-              <tr>
-                <td><input type="checkbox"></td>
-                <td>东方求闻史记</td>
-                <td>小说</td>
-                <td>8120116044</td>
-                <td>稗田阿求</td>
-                <td>2021 - 04 - 04 21:48:17</td>
-                <td>2021 - 04 - 04 21:50:00</td>
-                <td><span class="status-damaged-return">破损还书</span></td>
-                <td><button class="btn-delete-record">删除</button></td>
-              </tr>
-              <tr>
-                <td><input type="checkbox"></td>
-                <td>东方梦月抄</td>
-                <td>小说</td>
-                <td>8120116041</td>
-                <td>铃仙</td>
-                <td>2021 - 04 - 04 10:07:31</td>
-                <td>2021 - 04 - 04 21:09:27</td>
-                <td><span class="status-normal-return">正常还书</span></td>
-                <td><button class="btn-delete-record">删除</button></td>
-              </tr>
+              
             </tbody>
           </table>
           <div class="pagination">
             <button class="prev-page">
               <i class="fa fa-angle-left"></i>
             </button>
-            <input type="text" value="1" size="2">
+            <input class="pageIndex" type="text" value="1" size="2" readonly>
             <button class="next-page">
               <i class="fa fa-angle-left" style="transform: rotate(180deg);"></i>
             </button>
             <span>到第</span>
-            <input type="text" value="1" size="2">
+            <input class="toPageIndex" type="text" value="1" size="2">
             <span>页</span>
             <button class="page-confirm">确定</button>
-            <span>共5条</span>
+            <span>共</span>
+            <span class="totalNum">5</span>
+            <span>条</span>
             <select>
-              <option value="15">15条/页</option>
-              <option value="10">10条/页</option>
               <option value="5">5条/页</option>
+              <option value="10">10条/页</option>
+              <option value="15">15条/页</option>
             </select>
           </div>
           <div id="addBorrowModal" class="modal">
@@ -264,16 +220,13 @@
       
         <!-- 管理员图书管理界面 -->
         <div class="wrap" id="contain2">
-          <div class="search-bar">
-            <p>图书编号：</p><input type="text">
+          <div class="search-bar" id="searchBar2">
+            <!-- <p>图书编号：</p><input type="text"> -->
             <p>书名：</p><input type="text">
-            <select>
+            <select id="bookTypeSelect">
               <option value="">图书类型 请选择</option>
-              <option value="文学">文学</option>
-              <option value="历史">历史</option>
-              <option value="小说">小说</option>
             </select>
-            <button>搜索</button>
+            <button class="btn-search">搜索</button>
           </div>
           <div class="action-buttons">
             <button class="btn-borrow" id="addBookBtn">添加</button>
@@ -284,13 +237,11 @@
             <thead>
               <tr>
                 <th><input type="checkbox"></th>
-                <th>ISBN</th>
                 <th>图书名称</th>
-                <th>图书类型</th>
-                <th>作者</th>
                 <th>出版社信息</th>
-                <th>价格</th>
-                <th>语言</th>
+                <th>版本信息</th>
+                <th>作者</th>
+                <th>图书类别</th>
                 <th>副本数</th>
                 <th>操作</th>
               </tr>
@@ -309,119 +260,56 @@
                 <td><button class="btn-abnormal-return">修改</button><button class="btn-delete-record">删除</button>
                 </td>
               </tr>
-              <tr>
-                <td><input type="checkbox"></td>
-                <td>8120116042</td>
-                <td>苍之彼方的四重奏</td>
-                <td>小说</td>
-                <td>匿名</td>
-                <td>雪碧社</td>
-                <td>42</td>
-                <td>日文</td>
-                <td>5</td>
-                <td><button class="btn-abnormal-return">修改</button><button class="btn-delete-record">删除</button>
-                </td>
-              </tr>
-              <tr>
-                <td><input type="checkbox"></td>
-                <td>8120116042</td>
-                <td>苍之彼方的四重奏</td>
-                <td>小说</td>
-                <td>匿名</td>
-                <td>雪碧社</td>
-                <td>42</td>
-                <td>日文</td>
-                <td>5</td>
-                <td><button class="btn-abnormal-return">修改</button><button class="btn-delete-record">删除</button>
-                </td>
-              </tr>
-              <tr>
-                <td><input type="checkbox"></td>
-                <td>8120116042</td>
-                <td>苍之彼方的四重奏</td>
-                <td>小说</td>
-                <td>匿名</td>
-                <td>雪碧社</td>
-                <td>42</td>
-                <td>日文</td>
-                <td>5</td>
-                <td><button class="btn-abnormal-return">修改</button><button class="btn-delete-record">删除</button>
-                </td>
-              </tr>
-              <tr>
-                <td><input type="checkbox"></td>
-                <td>8120116042</td>
-                <td>苍之彼方的四重奏</td>
-                <td>小说</td>
-                <td>匿名</td>
-                <td>雪碧社</td>
-                <td>42</td>
-                <td>日文</td>
-                <td>5</td>
-                <td><button class="btn-abnormal-return">修改</button><button class="btn-delete-record">删除</button>
-                </td>
-              </tr>
+              
             </tbody>
           </table>
           <div class="pagination">
             <button class="prev-page">
               <i class="fa fa-angle-left"></i>
             </button>
-            <input type="text" value="1" size="2">
+            <input class="pageIndex" type="text" value="1" size="2" readonly>
             <button class="next-page">
               <i class="fa fa-angle-left" style="transform: rotate(180deg);"></i>
             </button>
             <span>到第</span>
-            <input type="text" value="1" size="2">
+            <input class="toPageIndex" type="text" value="1" size="2">
             <span>页</span>
             <button class="page-confirm">确定</button>
-            <span>共5条</span>
+            <span>共</span>
+            <span class="totalNum">5</span>
+            <span>条</span>
             <select>
-              <option value="15">15条/页</option>
-              <option value="10">10条/页</option>
               <option value="5">5条/页</option>
+              <option value="10">10条/页</option>
+              <option value="15">15条/页</option>
             </select>
           </div>
           <div id="addBookModal" class="modal">
             <div class="modal-content">
               <h2>新增图书</h2>
               <form id="addBookForm">
-                <div class="form-item">
-                  <label for="isbn">ISBN*</label>
-                  <input type="text" id="isbn" placeholder="请输入图书的ISBN编码">
-                </div>
+                
                 <div class="form-item">
                   <label for="bookName">图书名称*</label>
                   <input type="text" id="bookName" placeholder="请输入图书名称">
-                </div>
-                <div class="form-item">
-                  <label for="bookCategory">图书类别*</label>
-                  <select id="bookCategory">
-                    <option value="">请选择</option>
-                    <option value="科技">科技</option>
-                    <option value="历史">历史</option>
-                    <option value="经济">经济</option>
-                  </select>
-                </div>
-                <div class="form-item">
-                  <label for="author">作者*</label>
-                  <input type="text" id="author" placeholder="请输入作者">
                 </div>
                 <div class="form-item">
                   <label for="publiser">出版社*</label>
                   <input type="text" id="publiser" placeholder="请输入出版社">
                 </div>
                 <div class="form-item">
-                  <label for="price">价格*</label>
-                  <input type="text" id="price" placeholder="请输入价格">
+                  <label for="edition">版本信息*</label>
+                  <input type="text" id="edition" placeholder="请输入版本信息">
                 </div>
                 <div class="form-item">
-                  <label for="lag">语言*</label>
-                  <select id="lag" required>
+                  <label for="author">作者*</label>
+                  <input type="text" id="author" placeholder="请输入作者">
+                </div>
+                <div class="form-item">
+                  <label for="bookCategory">图书类别*</label>
+                  <select id="bookCategory">
                     <option value="">请选择</option>
-                    <option value="中文">中文</option>
-                    <option value="日文">日文</option>
-                    <option value="英文">英文</option>
+                    
                   </select>
                 </div>
                 <div class="form-item">
@@ -441,41 +329,26 @@
               <h2>修改图书</h2>
               <form id="fixBookForm">
                 <div class="form-item">
-                  <label for="isbn">ISBN*</label>
-                  <input type="text" id="isbn" placeholder="请输入图书的ISBN编码">
-                </div>
-                <div class="form-item">
                   <label for="bookName">图书名称*</label>
                   <input type="text" id="bookName" placeholder="请输入图书名称">
-                </div>
-                <div class="form-item">
-                  <label for="bookCategory">图书类别*</label>
-                  <select id="bookCategory">
-                    <option value="">请选择</option>
-                    <option value="科技">科技</option>
-                    <option value="历史">历史</option>
-                    <option value="经济">经济</option>
-                  </select>
-                </div>
-                <div class="form-item">
-                  <label for="author">作者*</label>
-                  <input type="text" id="author" placeholder="请输入作者">
                 </div>
                 <div class="form-item">
                   <label for="publiser">出版社*</label>
                   <input type="text" id="publiser" placeholder="请输入出版社">
                 </div>
                 <div class="form-item">
-                  <label for="price">价格*</label>
-                  <input type="text" id="price" placeholder="请输入价格">
+                  <label for="edition">版本信息*</label>
+                  <input type="text" id="edition" placeholder="请输入版本信息">
                 </div>
                 <div class="form-item">
-                  <label for="lag">语言*</label>
-                  <select id="lag" required>
+                  <label for="author">作者*</label>
+                  <input type="text" id="author" placeholder="请输入作者">
+                </div>
+                <div class="form-item">
+                  <label for="bookCategory">图书类别*</label>
+                  <select id="bookCategory">
                     <option value="">请选择</option>
-                    <option value="中文">中文</option>
-                    <option value="日文">日文</option>
-                    <option value="英文">英文</option>
+                    
                   </select>
                 </div>
                 <div class="form-item">
@@ -634,7 +507,7 @@
           <table class="book-table">
             <thead>
               <tr>
-                <th><input type="checkbox"></th>
+                <!-- <th><input type="checkbox"></th> -->
                 <th>书籍类别名</th>
                 <th>操作</th>
               </tr>
@@ -676,19 +549,21 @@
             <button class="prev-page">
               <i class="fa fa-angle-left"></i>
             </button>
-            <input type="text" value="1" size="2">
+            <input class="pageIndex" type="text" value="1" size="2" readonly>
             <button class="next-page">
               <i class="fa fa-angle-left" style="transform: rotate(180deg);"></i>
             </button>
             <span>到第</span>
-            <input type="text" value="1" size="2">
+            <input class="toPageIndex" type="text" value="1" size="2">
             <span>页</span>
             <button class="page-confirm">确定</button>
-            <span>共5条</span>
+            <span>共</span>
+            <span class="totalNum">5</span>
+            <span>条</span>
             <select>
-              <option value="15">15条/页</option>
-              <option value="10">10条/页</option>
               <option value="5">5条/页</option>
+              <option value="10">10条/页</option>
+              <option value="15">15条/页</option>
             </select>
           </div>
           <div id="addTypeModal" class="modal">
@@ -957,42 +832,40 @@
           </div>
         </div>
         <!-- 用户借阅管理界面 -->
+        <!-- 读者借阅界面 -->
         <div class="wrap" id="contain7">
-          <div class="search-bar">
-            <input type="text" placeholder="借书卡">
+          <div class="search-bar" id="searchBar7">
+            <!-- <input type="text" placeholder="借书卡"> -->
             <input type="text" placeholder="图书名称">
-            <select>
+            <select id="borrowRBookReturnSelect">
               <option value="">归还类型 请选择</option>
-              <option value="正常还书">正常还书</option>
-              <option value="延迟还书">延迟还书</option>
-              <option value="丢失赔书">丢失赔书</option>
-              <option value="破损还书">破损还书</option>
-              <option value="异常还书">异常还书</option>
+              <option value="未归还">未归还</option>
+              <option value="待确认">待确认</option>
+              <option value="已归还">已归还</option>
             </select>
-            <select>
-              <option value="">图书类型 请选择</option>
-              <option value="文学">文学</option>
-              <option value="经济">经济</option>
-              <option value="科技">科技</option>
+            <select   id="borrowRBookTypeSelect">
+              <option value=null>图书类型 请选择</option>
             </select>
-            <button>搜索</button>
+            <button class="btn-search">搜索</button>
           </div>
           <div class="action-buttons">
-            <button class="btn-borrow" id="addBorrowBtn">借书</button>
-            <button class="btn-return">还书</button>
+            <button class="btn-borrow" id="rAddBorrowBtn">借书申请</button>
+            <button class="btn-return" id="rAddReturnBtn">还书申请</button>
             <button class="btn-delete">删除</button>
           </div>
           <table class="book-table">
             <thead>
               <tr>
-                <th><input type="checkbox"></th>
-                <th>图书名称</th>
-                <th>类型</th>
-                <th>借书卡</th>
+                <!-- <th><input type="checkbox"></th> -->
                 <th>借阅人</th>
-                <th>借阅时间</th>
+                <th>图书名称</th>
+                <th>出版社信息</th>
+                <th>版本信息</th>
+                <th>作者</th>
+                <th>图书类别</th>
+                <th>结束时间</th>
+                <th>应还时间</th>
                 <th>还书时间</th>
-                <th>还书类型</th>
                 <th>操作</th>
               </tr>
             </thead>
@@ -1009,75 +882,34 @@
                 <td><button class="btn-abnormal-return">还书</button><button class="btn-delete-record">删除</button>
                 </td>
               </tr>
-              <tr>
-                <td><input type="checkbox"></td>
-                <td>妄想症</td>
-                <td>小说</td>
-                <td>8120116041</td>
-                <td>泠珞</td>
-                <td>2021 - 04 - 05 21:35:35</td>
-                <td>2021 - 04 - 05 21:35:47</td>
-                <td><span class="status-delay-return">延迟还书</span></td>
-                <td><button class="btn-delete-record">删除</button></td>
-              </tr>
-              <tr>
-                <td><input type="checkbox"></td>
-                <td>摇曳百合</td>
-                <td>小说</td>
-                <td>8120116042</td>
-                <td>阿卡林</td>
-                <td>2021 - 04 - 04 21:50:22</td>
-                <td>2021 - 04 - 04 21:50:32</td>
-                <td><span class="status-lost-book">丢失赔书</span></td>
-                <td><button class="btn-delete-record">删除</button></td>
-              </tr>
-              <tr>
-                <td><input type="checkbox"></td>
-                <td>东方求闻史记</td>
-                <td>小说</td>
-                <td>8120116044</td>
-                <td>稗田阿求</td>
-                <td>2021 - 04 - 04 21:48:17</td>
-                <td>2021 - 04 - 04 21:50:00</td>
-                <td><span class="status-damaged-return">破损还书</span></td>
-                <td><button class="btn-delete-record">删除</button></td>
-              </tr>
-              <tr>
-                <td><input type="checkbox"></td>
-                <td>东方梦月抄</td>
-                <td>小说</td>
-                <td>8120116041</td>
-                <td>铃仙</td>
-                <td>2021 - 04 - 04 10:07:31</td>
-                <td>2021 - 04 - 04 21:09:27</td>
-                <td><span class="status-normal-return">正常还书</span></td>
-                <td><button class="btn-delete-record">删除</button></td>
-              </tr>
+              
             </tbody>
           </table>
           <div class="pagination">
             <button class="prev-page">
               <i class="fa fa-angle-left"></i>
             </button>
-            <input type="text" value="1" size="2">
+            <input class="pageIndex" type="text" value="1" size="2" readonly>
             <button class="next-page">
               <i class="fa fa-angle-left" style="transform: rotate(180deg);"></i>
             </button>
             <span>到第</span>
-            <input type="text" value="1" size="2">
+            <input class="toPageIndex" type="text" value="1" size="2">
             <span>页</span>
             <button class="page-confirm">确定</button>
-            <span>共5条</span>
+            <span>共</span>
+            <span class="totalNum">5</span>
+            <span>条</span>
             <select>
-              <option value="15">15条/页</option>
-              <option value="10">10条/页</option>
               <option value="5">5条/页</option>
+              <option value="10">10条/页</option>
+              <option value="15">15条/页</option>
             </select>
           </div>
-          <div id="addBorrowModal" class="modal">
+          <div id="rAddBorrowModal" class="modal">
             <div class="modal-content">
               <h2>办理借书</h2>
-              <form id="addBorrowForm">
+              <form id="rAddBorrowForm">
                 <div class="form-item">
                   <label for="bookName">图书名称*</label>
                   <input type="text" id="bookName" placeholder="请输入图书名称">
@@ -1100,12 +932,35 @@
                   <input type="text" id="borrower" placeholder="请输入借阅人">
                 </div>
                 <div class="btn-container">
-                  <button type="button" id="borrow-cancelBtn" class="cancelBtn">取消</button>
-                  <button type="submit" id="borrow-submitBtn" class="submitBtn">确认借书</button>
+                  <button type="button" id="rBorrow-cancelBtn" class="cancelBtn">取消</button>
+                  <button type="submit" id="rBorrow-submitBtn" class="submitBtn">确认借书</button>
                 </div>
               </form>
             </div>
           </div>
+          <div id="fixRBorrowModal" class="modal">
+            <div class="modal-content">
+              <h2>还书类型</h2>
+              <form id="fixRBorrowForm">
+                <div class="form-item">
+                  <label for="normal">还书类型*</label>
+                  <select id="normal" required>
+                    <option value="">请选择</option>
+                    <option value="正常还书">正常还书</option>
+                    <option value="延迟还书">延迟还书</option>
+                    <option value="破损还书">破损还书</option>
+                    <option value="丢失赔书">丢失赔书</option>
+                  </select>
+                </div>
+                <div class="btn-container">
+                  <button type="button" id="fix-RBorrow-cancelBtn" class="cancelBtn">取消</button>
+                  <button type="submit" id="fix-RBorrow-submitBtn" class="submitBtn">完成修改</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        
           <div id="fixBorrowModal" class="modal">
             <div class="modal-content">
               <h2>还书类型</h2>
@@ -1128,35 +983,29 @@
             </div>
           </div>
         </div>
-        <!-- 管理员图书管理界面 -->
+        <!-- 读者图书管理界面 -->
         <div class="wrap" id="contain8">
-          <div class="search-bar">
-            <p>图书编号：</p><input type="text">
+          <div class="search-bar" id="searchBar8">
+            <!-- <p>图书编号：</p><input type="text"> -->
             <p>书名：</p><input type="text">
-            <select>
+            <select id="rBookTypeSelect">
               <option value="">图书类型 请选择</option>
-              <option value="文学">文学</option>
-              <option value="历史">历史</option>
-              <option value="小说">小说</option>
             </select>
-            <button>搜索</button>
+            <button class="btn-search">搜索</button>
           </div>
-          <div class="action-buttons">
+          <!-- <div class="action-buttons">
             <button class="btn-borrow" id="addBookBtn">添加</button>
             <button class="btn-return">删除</button>
       
-          </div>
+          </div> -->
           <table class="book-table">
             <thead>
               <tr>
-                <th><input type="checkbox"></th>
-                <th>ISBN</th>
                 <th>图书名称</th>
-                <th>图书类型</th>
-                <th>作者</th>
                 <th>出版社信息</th>
-                <th>价格</th>
-                <th>语言</th>
+                <th>版本信息</th>
+                <th>作者</th>
+                <th>图书类别</th>
                 <th>副本数</th>
                 <th>操作</th>
               </tr>
@@ -1175,188 +1024,34 @@
                 <td><button class="btn-abnormal-return">修改</button><button class="btn-delete-record">删除</button>
                 </td>
               </tr>
-              <tr>
-                <td><input type="checkbox"></td>
-                <td>8120116042</td>
-                <td>苍之彼方的四重奏</td>
-                <td>小说</td>
-                <td>匿名</td>
-                <td>雪碧社</td>
-                <td>42</td>
-                <td>日文</td>
-                <td>5</td>
-                <td><button class="btn-abnormal-return">修改</button><button class="btn-delete-record">删除</button>
-                </td>
-              </tr>
-              <tr>
-                <td><input type="checkbox"></td>
-                <td>8120116042</td>
-                <td>苍之彼方的四重奏</td>
-                <td>小说</td>
-                <td>匿名</td>
-                <td>雪碧社</td>
-                <td>42</td>
-                <td>日文</td>
-                <td>5</td>
-                <td><button class="btn-abnormal-return">修改</button><button class="btn-delete-record">删除</button>
-                </td>
-              </tr>
-              <tr>
-                <td><input type="checkbox"></td>
-                <td>8120116042</td>
-                <td>苍之彼方的四重奏</td>
-                <td>小说</td>
-                <td>匿名</td>
-                <td>雪碧社</td>
-                <td>42</td>
-                <td>日文</td>
-                <td>5</td>
-                <td><button class="btn-abnormal-return">修改</button><button class="btn-delete-record">删除</button>
-                </td>
-              </tr>
-              <tr>
-                <td><input type="checkbox"></td>
-                <td>8120116042</td>
-                <td>苍之彼方的四重奏</td>
-                <td>小说</td>
-                <td>匿名</td>
-                <td>雪碧社</td>
-                <td>42</td>
-                <td>日文</td>
-                <td>5</td>
-                <td><button class="btn-abnormal-return">修改</button><button class="btn-delete-record">删除</button>
-                </td>
-              </tr>
+              
             </tbody>
           </table>
           <div class="pagination">
             <button class="prev-page">
               <i class="fa fa-angle-left"></i>
             </button>
-            <input type="text" value="1" size="2">
+            <input class="pageIndex" type="text" value="1" size="2" readonly>
             <button class="next-page">
               <i class="fa fa-angle-left" style="transform: rotate(180deg);"></i>
             </button>
             <span>到第</span>
-            <input type="text" value="1" size="2">
+            <input class="toPageIndex" type="text" value="1" size="2">
             <span>页</span>
             <button class="page-confirm">确定</button>
-            <span>共5条</span>
+            <span>共</span>
+            <span class="totalNum">5</span>
+            <span>条</span>
             <select>
-              <option value="15">15条/页</option>
-              <option value="10">10条/页</option>
               <option value="5">5条/页</option>
+              <option value="10">10条/页</option>
+              <option value="15">15条/页</option>
             </select>
           </div>
-          <div id="addBookModal" class="modal">
-            <div class="modal-content">
-              <h2>新增图书</h2>
-              <form id="addBookForm">
-                <div class="form-item">
-                  <label for="isbn">ISBN*</label>
-                  <input type="text" id="isbn" placeholder="请输入图书的ISBN编码">
-                </div>
-                <div class="form-item">
-                  <label for="bookName">图书名称*</label>
-                  <input type="text" id="bookName" placeholder="请输入图书名称">
-                </div>
-                <div class="form-item">
-                  <label for="bookCategory">图书类别*</label>
-                  <select id="bookCategory">
-                    <option value="">请选择</option>
-                    <option value="科技">科技</option>
-                    <option value="历史">历史</option>
-                    <option value="经济">经济</option>
-                  </select>
-                </div>
-                <div class="form-item">
-                  <label for="author">作者*</label>
-                  <input type="text" id="author" placeholder="请输入作者">
-                </div>
-                <div class="form-item">
-                  <label for="publiser">出版社*</label>
-                  <input type="text" id="publiser" placeholder="请输入出版社">
-                </div>
-                <div class="form-item">
-                  <label for="price">价格*</label>
-                  <input type="text" id="price" placeholder="请输入价格">
-                </div>
-                <div class="form-item">
-                  <label for="lag">语言*</label>
-                  <select id="lag" required>
-                    <option value="">请选择</option>
-                    <option value="中文">中文</option>
-                    <option value="日文">日文</option>
-                    <option value="英文">英文</option>
-                  </select>
-                </div>
-                <div class="form-item">
-                  <label for="num">副本数*</label>
-                  <input type="text" id="num" placeholder="请输入副本数">
-                </div>
-      
-                <div class="btn-container">
-                  <button type="button" id="book-cancelBtn" class="cancelBtn">取消</button>
-                  <button type="submit" id="book-submitBtn" class="submitBtn">新增图书</button>
-                </div>
-              </form>
-            </div>
-          </div>
-          <div id="fixBookModal" class="modal">
-            <div class="modal-content">
-              <h2>修改图书</h2>
-              <form id="fixBookForm">
-                <div class="form-item">
-                  <label for="isbn">ISBN*</label>
-                  <input type="text" id="isbn" placeholder="请输入图书的ISBN编码">
-                </div>
-                <div class="form-item">
-                  <label for="bookName">图书名称*</label>
-                  <input type="text" id="bookName" placeholder="请输入图书名称">
-                </div>
-                <div class="form-item">
-                  <label for="bookCategory">图书类别*</label>
-                  <select id="bookCategory">
-                    <option value="">请选择</option>
-                    <option value="科技">科技</option>
-                    <option value="历史">历史</option>
-                    <option value="经济">经济</option>
-                  </select>
-                </div>
-                <div class="form-item">
-                  <label for="author">作者*</label>
-                  <input type="text" id="author" placeholder="请输入作者">
-                </div>
-                <div class="form-item">
-                  <label for="publiser">出版社*</label>
-                  <input type="text" id="publiser" placeholder="请输入出版社">
-                </div>
-                <div class="form-item">
-                  <label for="price">价格*</label>
-                  <input type="text" id="price" placeholder="请输入价格">
-                </div>
-                <div class="form-item">
-                  <label for="lag">语言*</label>
-                  <select id="lag" required>
-                    <option value="">请选择</option>
-                    <option value="中文">中文</option>
-                    <option value="日文">日文</option>
-                    <option value="英文">英文</option>
-                  </select>
-                </div>
-                <div class="form-item">
-                  <label for="num">副本数*</label>
-                  <input type="text" id="num" placeholder="请输入副本数">
-                </div>
-      
-                <div class="btn-container">
-                  <button type="button" id="fix-book-cancelBtn" class="cancelBtn">取消</button>
-                  <button type="submit" id="fix-book-submitBtn" class="submitBtn">保存修改</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
+          
+
+        
+        
       </div>
       
       
@@ -1391,6 +1086,8 @@
   <script src="./js/book.js"></script>
   <script src="./js/admin.js"></script>
   <script src="./js/reader.js"></script>
+  <script src="./js/rborrow.js"></script>
+  <script src="./js/rbook.js"></script>
   <script>
     $(window).on("load", function () {
       $(".loader-wrap").fadeOut("slow")
@@ -1435,6 +1132,7 @@
       })
     const readernavs = document.querySelector('.sub-nav#readerNav')
     let readershowNavs=document.querySelector('#contain7')
+    document.querySelector('.head p').innerHTML = document.querySelector('#readerNav a:first-child').innerHTML;
     readernavs.addEventListener('click',function(e){
       if(e.target.tagName == 'A'){
         let i=Number(e.target.dataset.id)
@@ -1452,6 +1150,7 @@
             url: 'http://localhost:8088/admin/admin/logout',
             method: 'post',
             headers:{
+              "Content-Type":"application/json",
               'adminToken':`${localStorage.getItem('id-token')}`
             }
           }).then(result => {
@@ -1461,11 +1160,37 @@
             //alert(error.response.data.message)
           })
         } else if (token == 'employee') {
-          document.querySelector('.nav #empNav').classList.add('show')
-          empshowNavs.classList.add('show')
+          axios({
+            url: 'http://localhost:8088/employee/logout',
+            method: 'post',
+            headers:{
+              "Content-Type":"application/json",
+              'employeeToken':`${localStorage.getItem('id-token')}`
+            }
+          }).then(result => {
+            window.location.href = './login.html'
+          }).catch(error => {
+            console.log(error)
+            //alert(error.response.data.message)
+          })
+          // document.querySelector('.nav #empNav').classList.add('show')
+          // empshowNavs.classList.add('show')
         } else if (token == 'user') {
-          document.querySelector('.nav #readerNav').classList.add('show')
-          readershowNavs.classList.add('show')
+          axios({
+            url: 'http://localhost:8088/user/user/logout',
+            method: 'post',
+            headers:{
+              "Content-Type":"application/json",
+              'userToken':`${localStorage.getItem('id-token')}`
+            }
+          }).then(result => {
+            window.location.href = './login.html'
+          }).catch(error => {
+            console.log(error)
+            //alert(error.response.data.message)
+          })
+          // document.querySelector('.nav #readerNav').classList.add('show')
+          // readershowNavs.classList.add('show')
         }
 
         

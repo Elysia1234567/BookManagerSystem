@@ -88,7 +88,7 @@ function render4() {
     }
     
 }).then(result=>{
-    console.log(result)
+    //console.log(result)
     if(result.data.code=='1'){
       totalNumArea4.innerHTML=result.data.data.total
       totalNum4=parseInt(result.data.data.total)
@@ -127,6 +127,7 @@ function render4() {
     alert('网络连接错误')
 })
 }
+if(localStorage.getItem('token')=='employee')
 render4()
 
 //新增类型按钮
@@ -160,12 +161,47 @@ fixTypesubmitBtn.addEventListener('click',function(e){
   }else{
     if(currentEditRow4){
       currentEditRow4.querySelector('#tableContent').textContent=newContent
+      const tid=currentEditRow4.dataset.typeid
+      const typeData={
+        "id":tid,
+        "type":0,
+        "name":editTextarea4.value,
+        "sort":0
+      }
+      axios({
+        url:'http://localhost:8088/employee/category',
+        method:'put',
+        headers:{
+            "Content-Type":"application/json",
+            'employeeToken': `${localStorage.getItem('id-token')}`
+        },
+        data:JSON.stringify(typeData)
+    }).then(result=>{
+        console.log(result)
+        if(result.data.code=='1'){
+          // arr4.push({
+          //   content:textArea4.value,
+          // })
+          render4()
+          addTypeForm.reset()
+          // 隐藏弹窗
+          addTypeModal.style.display = 'none';
+        }
+        else{
+            alert(result.data.msg)
+        }
+        
+    }).catch(error=>{
+        console.log(error)
+        //alert(error.response.data.message)
+        alert('网络连接错误')
+    })
     }
     fixTypeModal.style.display='none'
     const id=currentEditRow4.dataset.id
     arr4[id].content=newContent
     render4()
-    localStorage.setItem('typeData',JSON.stringify(arr4))
+    
   }
 })
 
@@ -185,7 +221,8 @@ typesubmitBtn.addEventListener('click', function (e) {
         url:'http://localhost:8088/employee/category',
         method:'post',
         headers:{
-            "Content-Type":"application/json"
+            "Content-Type":"application/json",
+            'employeeToken': `${localStorage.getItem('id-token')}`
         },
         data:JSON.stringify(typeData)
     }).then(result=>{
@@ -218,6 +255,8 @@ typesubmitBtn.addEventListener('click', function (e) {
     if(e.target.classList.contains('btn-delete-record')){
         const row = e.target.closest('tr');
         const id=row.dataset.id
+        const tid=row.dataset.typeid
+        console.log(tid)
         // 添加删除动画效果
         row.style.transition = 'all 0.3s ease';
         row.style.opacity = '0';
@@ -229,14 +268,14 @@ typesubmitBtn.addEventListener('click', function (e) {
             'employeeToken': `${localStorage.getItem('id-token')}`
           },
           params:{
-            id:row.dataset.userid
+            id:row.dataset.typeid
           }
           
       }).then(result=>{
         console.log(result)
         setTimeout(() => {
-          arr3.splice(id,1)
-          render3()
+          arr4.splice(id,1)
+          render4()
          
         }, 300);
           
@@ -245,11 +284,7 @@ typesubmitBtn.addEventListener('click', function (e) {
           //alert(error.response.data.message)
           alert('网络连接错误')
       })
-        setTimeout(() => {
-          arr4.splice(id,1)
-          render4()
-          localStorage.setItem('typeData',JSON.stringify(arr4))
-        }, 300);
+        
     }
     if(e.target.classList.contains('btn-abnormal-return')){
         currentEditRow4 = e.target.closest('tr');
