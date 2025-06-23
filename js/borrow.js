@@ -190,7 +190,7 @@ function render1() {
             <td>${ele.endTime}</td>
             <td id='returnTime'>${ele.returnTime}</td>
             <td>
-              <button class="btn-abnormal-return">修改</button><button class="btn-delete-record">删除</button>
+              <button class="btn-abnormal-return">通过</button><button class="btn-delete-record">删除</button>
             </td>
           </tr>
           `
@@ -261,7 +261,7 @@ function render1() {
             <td>${ele.endTime}</td>
             <td id='returnTime'>${ele.returnTime}</td>
             <td>
-              <button class="btn-abnormal-return">修改</button><button class="btn-delete-record">删除</button>
+              <button class="btn-abnormal-return">通过</button><button class="btn-delete-record">删除</button>
             </td>
           </tr>
           `
@@ -392,7 +392,7 @@ fixBorrowsubmitBtn.addEventListener('click',function(e){
 // });
 
 tbody1.addEventListener('click', function(e) {
-  // 获取所有删除按钮
+  // 获取所有通过按钮
   if(e.target.classList.contains('btn-delete-record')){
       const row = e.target.closest('tr');
       const id=row.dataset.id
@@ -408,8 +408,27 @@ tbody1.addEventListener('click', function(e) {
   }
   if(e.target.classList.contains('btn-abnormal-return')){
     currentEditRow1 = e.target.closest('tr');
-    console.log(currentEditRow1)
-    // const typeContent=currentEditRow3.querySelector('#tableContent').textContent
-    fixBorrowModal.style.display='block'
+    const id=currentEditRow1.dataset.borrowid
+    axios({
+      url:`http://localhost:8088/employee/borrow/allow/${id}`,
+      method:'post',
+      headers: {
+          "Content-Type":"application/json",
+        'employeeToken': `${localStorage.getItem('id-token')}`
+      }
+      // params:{
+      //   id:currentEditRow1.dataset.borrowid
+      // }
+      
+      
+  }).then(result=>{
+      render1()
+      
+      
+  }).catch(error=>{
+      console.log(error)
+      //alert(error.response.data.message)
+      alert('网络连接错误')
+  })
   }
 });

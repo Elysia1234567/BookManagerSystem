@@ -139,13 +139,13 @@ pageSelect7.addEventListener('change', function () {
 function render7() {
     if (isRBorrow) {
         axios({
-            url: `http://localhost:8088/user/borrow/pageQueryh`,
+            url: `http://localhost:8088/user/borrow/pageQuery`,
             method: 'get',
             headers: {
                 'userToken': `${localStorage.getItem('id-token')}`
             },
             params: {
-                userName: targetRBorrowName,
+                // userName: targetRBorrowName,
                 categoryName: targetRBorrowType,
                 page: tpage7,
                 pageSize: pageSize7,
@@ -171,22 +171,24 @@ function render7() {
                         edition: result.data.data.records[i].edition,
                         bookName: result.data.data.records[i].bookName,
                         publish: result.data.data.records[i].publish,
-                        userName: result.data.data.records[i].userName
+                        userName: result.data.data.records[i].userName,
+                        borrowTime:result.data.data.records[i].startTime,
+                        endTime:result.data.data.records[i].returnTime,
+                        returnTime:result.data.data.records[i].endTime
                     })
                 }
                 //console.log(arr6)
                 const trArr = arr7.map(function (ele, index) {
                     return `<tr data-id="${index}"data-borrowid=${ele.id}>
-            <td>${ele.userName}</td>
               <td id='bookName'>${ele.bookName}</td>
                <td id='student'>${ele.publish}</td>
             
             <td id='cardId'>${ele.edition}</td>
              <td>${ele.author}</td>
            <td id='bookType'>${ele.categoryName}</td>
-            <td id='borrowTime'>${ele.borrowTime}</td>
-            <td>${ele.endTime}</td>
-            <td id='returnTime'>${ele.returnTime}</td>
+            <td id='borrowTime'>${ele.borrowTime==null?'未开始':ele.borrowTime}</td>
+            <td>${ele.endTime==null?'未开始':ele.endTime}</td>
+            <td id='returnTime'>${ele.returnTime==null?'未开始':ele.returnTime}</td>
             <td>
               <button class="btn-abnormal-return">修改</button><button class="btn-delete-record">删除</button>
             </td>
@@ -249,7 +251,6 @@ function render7() {
                     //console.log(arr6)
                     const trArr = arr7.map(function (ele, index) {
                         return `<tr data-id="${index}"data-borrowid=${ele.id}>
-                  <td>${ele.userName}</td>
                     <td id='bookName'>${ele.bookName}</td>
                      <td id='student'>${ele.publish}</td>
                   
@@ -294,103 +295,103 @@ if (localStorage.getItem('token') == 'user')
 //   addBorrowModal.style.display = 'block'
 // })
 //按到空白处
-window.addEventListener('click', function (event) {
-    if (event.target === rAddBorrowModal) {
-        rAddBorrowModal.style.display = 'none';
-    } else if (event.target == fixRBorrowModal) {
-        fixRBorrowModal.style.display = 'none';
-    }
-});
-//取消按钮
-rBorrowcancelBtn.addEventListener('click', function () {
-    rAddBorrowModal.style.display = 'none';
-});
+// window.addEventListener('click', function (event) {
+//     if (event.target === rAddBorrowModal) {
+//         rAddBorrowModal.style.display = 'none';
+//     } else if (event.target == fixRBorrowModal) {
+//         fixRBorrowModal.style.display = 'none';
+//     }
+// });
+// //取消按钮
+// rBorrowcancelBtn.addEventListener('click', function () {
+//     rAddBorrowModal.style.display = 'none';
+// });
 
-//修改类型的取消按钮
-fixRBorrowcancelBtn.addEventListener('click', function () {
-    fixRBorrowModal.style.display = 'none'
-})
+// //修改类型的取消按钮
+// fixRBorrowcancelBtn.addEventListener('click', function () {
+//     fixRBorrowModal.style.display = 'none'
+// })
 
-//修改类型的保存按钮
-fixRBorrowsubmitBtn.addEventListener('click', function (e) {
-    e.preventDefault()
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = ('0' + (now.getMonth() + 1)).slice(-2); // 月份从0开始，补0并取后两位
-    const day = ('0' + now.getDate()).slice(-2); // 日期补0并取后两位
-    const hours = ('0' + now.getHours()).slice(-2); // 小时补0并取后两位
-    const minutes = ('0' + now.getMinutes()).slice(-2); // 分钟补0并取后两位
-    const seconds = ('0' + now.getSeconds()).slice(-2); // 秒数补0并取后两位
-    const customTimeString = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-    const newContent = fRBorrownormal.value
-    let retClass
-    if (!newContent) {
-        alert('输入的内容不能为空')
-    } else {
-        if (currentEditRow7) {
+// //修改类型的保存按钮
+// fixRBorrowsubmitBtn.addEventListener('click', function (e) {
+//     e.preventDefault()
+//     const now = new Date();
+//     const year = now.getFullYear();
+//     const month = ('0' + (now.getMonth() + 1)).slice(-2); // 月份从0开始，补0并取后两位
+//     const day = ('0' + now.getDate()).slice(-2); // 日期补0并取后两位
+//     const hours = ('0' + now.getHours()).slice(-2); // 小时补0并取后两位
+//     const minutes = ('0' + now.getMinutes()).slice(-2); // 分钟补0并取后两位
+//     const seconds = ('0' + now.getSeconds()).slice(-2); // 秒数补0并取后两位
+//     const customTimeString = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+//     const newContent = fRBorrownormal.value
+//     let retClass
+//     if (!newContent) {
+//         alert('输入的内容不能为空')
+//     } else {
+//         if (currentEditRow7) {
 
-            currentEditRow7.querySelector('#returnTime').textContent = customTimeString
-            currentEditRow7.querySelector('#returnType span').textContent = newContent
-            currentEditRow7.querySelector('#returnType span').classList.remove('status-borrowing')
-            currentEditRow7.querySelector('.btn-abnormal-return').remove()
-            if (newContent == '正常还书') {
-                currentEditRow7.querySelector('#returnType span').classList.add('status-normal-return')
-                retClass = 'status-normal-return'
-            } else if (newContent == '延迟还书') {
-                currentEditRow7.querySelector('#returnType span').classList.add('status-delay-return')
-                retClass = 'status-delay-return'
-            } else if (newContent == '破损还书') {
-                currentEditRow7.querySelector('#returnType span').classList.add('status-damaged-return')
-                retClass = 'status-damaged-return'
-            } else if (newContent == '丢失赔书') {
-                currentEditRow7.querySelector('#returnType span').classList.add('status-lost-book')
-                retClass = 'status-lost-book'
-            }
-        }
-        fixRBorrowModal.style.display = 'none'
-        const id = currentEditRow7.dataset.id
-        arr7[id].returnTime = customTimeString
-        arr7[id].returnType = newContent
-        arr7[id].returnClass = retClass
-        arr7[id].btn = '<button class="btn-delete-record">删除</button>'
-        render7()
-        localStorage.setItem('borrowData', JSON.stringify(arr7))
-    }
-})
+//             currentEditRow7.querySelector('#returnTime').textContent = customTimeString
+//             currentEditRow7.querySelector('#returnType span').textContent = newContent
+//             currentEditRow7.querySelector('#returnType span').classList.remove('status-borrowing')
+//             currentEditRow7.querySelector('.btn-abnormal-return').remove()
+//             if (newContent == '正常还书') {
+//                 currentEditRow7.querySelector('#returnType span').classList.add('status-normal-return')
+//                 retClass = 'status-normal-return'
+//             } else if (newContent == '延迟还书') {
+//                 currentEditRow7.querySelector('#returnType span').classList.add('status-delay-return')
+//                 retClass = 'status-delay-return'
+//             } else if (newContent == '破损还书') {
+//                 currentEditRow7.querySelector('#returnType span').classList.add('status-damaged-return')
+//                 retClass = 'status-damaged-return'
+//             } else if (newContent == '丢失赔书') {
+//                 currentEditRow7.querySelector('#returnType span').classList.add('status-lost-book')
+//                 retClass = 'status-lost-book'
+//             }
+//         }
+//         fixRBorrowModal.style.display = 'none'
+//         const id = currentEditRow7.dataset.id
+//         arr7[id].returnTime = customTimeString
+//         arr7[id].returnType = newContent
+//         arr7[id].returnClass = retClass
+//         arr7[id].btn = '<button class="btn-delete-record">删除</button>'
+//         render7()
+//         localStorage.setItem('borrowData', JSON.stringify(arr7))
+//     }
+// })
 
-rBorrowsubmitBtn.addEventListener('click', function (e) {
-    e.preventDefault();
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = ('0' + (now.getMonth() + 1)).slice(-2); // 月份从0开始，补0并取后两位
-    const day = ('0' + now.getDate()).slice(-2); // 日期补0并取后两位
-    const hours = ('0' + now.getHours()).slice(-2); // 小时补0并取后两位
-    const minutes = ('0' + now.getMinutes()).slice(-2); // 分钟补0并取后两位
-    const seconds = ('0' + now.getSeconds()).slice(-2); // 秒数补0并取后两位
-    const customTimeString = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-    if (!borrowRBookName.value || !borrowRBookCategory.value || !borrowCard.value || !rBorrower.value) {
-        alert('输入的内容不能为空')
-    } else {
-        arr7.push({
-            borrowbookName: borrowRBookName.value,
-            bookType: borrowRBookCategory.value,
-            cardId: borrowCard.value,
-            student: rBorrower.value,
-            borrowTime: customTimeString,
-            returnTime: '',
-            returnType: '在借中',
-            returnClass: 'status-borrowing',
-            btn: '<button class="btn-abnormal-return">还书</button><button class="btn-delete-record">删除</button>'
-        })
-        render7()
-        rAddBorrowForm.reset()
-        localStorage.setItem('borrowData', JSON.stringify(arr7))
-        // 隐藏弹窗
-        rAddBorrowModal.style.display = 'none';
-    }
+// rBorrowsubmitBtn.addEventListener('click', function (e) {
+//     e.preventDefault();
+//     const now = new Date();
+//     const year = now.getFullYear();
+//     const month = ('0' + (now.getMonth() + 1)).slice(-2); // 月份从0开始，补0并取后两位
+//     const day = ('0' + now.getDate()).slice(-2); // 日期补0并取后两位
+//     const hours = ('0' + now.getHours()).slice(-2); // 小时补0并取后两位
+//     const minutes = ('0' + now.getMinutes()).slice(-2); // 分钟补0并取后两位
+//     const seconds = ('0' + now.getSeconds()).slice(-2); // 秒数补0并取后两位
+//     const customTimeString = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+//     if (!borrowRBookName.value || !borrowRBookCategory.value || !borrowCard.value || !rBorrower.value) {
+//         alert('输入的内容不能为空')
+//     } else {
+//         arr7.push({
+//             borrowbookName: borrowRBookName.value,
+//             bookType: borrowRBookCategory.value,
+//             cardId: borrowCard.value,
+//             student: rBorrower.value,
+//             borrowTime: customTimeString,
+//             returnTime: '',
+//             returnType: '在借中',
+//             returnClass: 'status-borrowing',
+//             btn: '<button class="btn-abnormal-return">还书</button><button class="btn-delete-record">删除</button>'
+//         })
+//         render7()
+//         rAddBorrowForm.reset()
+//         localStorage.setItem('borrowData', JSON.stringify(arr7))
+//         // 隐藏弹窗
+//         rAddBorrowModal.style.display = 'none';
+//     }
 
-    // 这里可添加向服务器发送数据等操作
-});
+//     // 这里可添加向服务器发送数据等操作
+// });
 
 tbody7.addEventListener('click', function (e) {
     // 获取所有删除按钮

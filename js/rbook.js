@@ -366,6 +366,7 @@ tbody8.addEventListener('click', function(e) {
         
         
     }).then(result=>{
+        render7()
         render8()
         
     }).catch(error=>{
