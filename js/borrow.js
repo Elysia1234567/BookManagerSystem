@@ -32,6 +32,7 @@ const pageSelect1=pagination1.querySelector('select')
 const totalNumArea1=pagination1.querySelector('.totalNum')
 let targetBorrowName
 let targetBorrowType
+let targetBorrowState
 let target
 let arr1
 let tpage1=1
@@ -80,6 +81,12 @@ borrowBookTypeSelect.addEventListener('change',function(){
   
 })
 
+// borrowBookReturnSelect.addEventListener('change',function(){
+//   const selectedOption=this.options[this.selectedIndex]
+//   targetBorrowState=selectedOption.value
+  
+// })
+
 addBorrowBtn.addEventListener('click',function(){
   isBorrow=true
   tpage1=1
@@ -99,6 +106,7 @@ searchBorrowBtn.addEventListener('click',function(){
   // console.log(targetUserName)
   tpage1=1
     pageIndex1.value=tpage1
+    alert("搜索成功")
   render1()
 })
 
@@ -151,7 +159,7 @@ function render1() {
         categoryName:targetBorrowType,
         page:tpage1,
         pageSize:pageSize1,
-        status:null
+        //status:targetBorrowState
         
         
       }
@@ -173,7 +181,9 @@ function render1() {
             edition:result.data.data.records[i].edition,
             bookName:result.data.data.records[i].bookName,
             publish:result.data.data.records[i].publish,
-            userName:result.data.data.records[i].userName
+            userName:result.data.data.records[i].userName,
+            startTime:result.data.data.records[i].startTime,
+            returnTime:result.data.data.records[i].returnTime
           })
         }
         //console.log(arr6)
@@ -186,11 +196,10 @@ function render1() {
             <td id='cardId'>${ele.edition}</td>
              <td>${ele.author}</td>
            <td id='bookType'>${ele.categoryName}</td>
-            <td id='borrowTime'>${ele.borrowTime}</td>
-            <td>${ele.endTime}</td>
-            <td id='returnTime'>${ele.returnTime}</td>
+            <td id='borrowTime'>${ele.startTime}</td>
+            <td>${ele.returnTime}</td>
             <td>
-              <button class="btn-abnormal-return">通过</button><button class="btn-delete-record">删除</button>
+              <button class="btn-abnormal-return">通过</button><button class="btn-delete-record">拒绝</button>
             </td>
           </tr>
           `
@@ -244,7 +253,9 @@ function render1() {
             edition:result.data.data.records[i].edition,
             bookName:result.data.data.records[i].bookName,
             publish:result.data.data.records[i].publish,
-            userName:result.data.data.records[i].userName
+            userName:result.data.data.records[i].userName,
+            startTime:result.data.data.records[i].startTime,
+            returnTime:result.data.data.records[i].returnTime
           })
         }
         //console.log(arr6)
@@ -257,11 +268,11 @@ function render1() {
             <td id='cardId'>${ele.edition}</td>
              <td>${ele.author}</td>
            <td id='bookType'>${ele.categoryName}</td>
-            <td id='borrowTime'>${ele.borrowTime}</td>
-            <td>${ele.endTime}</td>
-            <td id='returnTime'>${ele.returnTime}</td>
+            <td id='borrowTime'>${ele.startTime}</td>
+            <td>${ele.returnTime}</td>
+            <td id='returnTime'>${ele.endTime}</td>
             <td>
-              <button class="btn-abnormal-return">通过</button><button class="btn-delete-record">删除</button>
+              <button class="btn-abnormal-return">通过</button><button class="btn-delete-record">拒绝</button>
             </td>
           </tr>
           `
@@ -395,17 +406,55 @@ tbody1.addEventListener('click', function(e) {
   // 获取所有通过按钮
   if(e.target.classList.contains('btn-delete-record')){
     if(isBorrow){
-      const row = e.target.closest('tr');
-      const id=row.dataset.id
-      // 添加删除动画效果
-      row.style.transition = 'all 0.3s ease';
-      row.style.opacity = '0';
-      row.style.transform = 'translateX(50px)';
-      setTimeout(() => {
-        arr1.splice(id,1)
+      alert("已经拒绝了申请")
+      currentEditRow1 = e.target.closest('tr');
+      const id = currentEditRow1.dataset.borrowid
+      axios({
+        url: `http://localhost:8088/employee/borrow/notAllow/${id}`,
+        method: 'post',
+        headers: {
+          "Content-Type": "application/json",
+          'employeeToken': `${localStorage.getItem('id-token')}`
+        }
+        // params:{
+        //   id:currentEditRow1.dataset.borrowid
+        // }
+
+
+      }).then(result => {
         render1()
-        localStorage.setItem('borrowData',JSON.stringify(arr1))
-      }, 300);
+
+
+      }).catch(error => {
+        console.log(error)
+        //alert(error.response.data.message)
+        alert('网络连接错误')
+      })
+    }else{
+      alert("已经拒绝了还书")
+      currentEditRow1 = e.target.closest('tr');
+      const id = currentEditRow1.dataset.borrowid
+      axios({
+        url: `http://localhost:8088/employee/back/notAllow/${id}`,
+        method: 'post',
+        headers: {
+          "Content-Type": "application/json",
+          'employeeToken': `${localStorage.getItem('id-token')}`
+        }
+        // params:{
+        //   id:currentEditRow1.dataset.borrowid
+        // }
+
+
+      }).then(result => {
+        render1()
+
+
+      }).catch(error => {
+        console.log(error)
+        //alert(error.response.data.message)
+        alert('网络连接错误')
+      })
     }
       
   }

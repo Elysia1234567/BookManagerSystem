@@ -176,7 +176,7 @@ function render2() {
       //console.log(arr6)
       const trArr = arr2.map(function (ele, index) {
         return `<tr data-id="${index}"data-bookid=${ele.id}>
-            <td><input type="checkbox"></td>
+            
             <td id='n1'>${ele.name}</td>
             <td id='n2'>${ele.publish}</td>
             <td id='n3'>${ele.edition}</td>

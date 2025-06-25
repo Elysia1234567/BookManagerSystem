@@ -92,13 +92,13 @@
         <div class="wrap" id="contain1">
           <div class="search-bar" id="searchBar1">
             <!-- <input type="text" placeholder="借书卡"> -->
-            <input type="text" placeholder="图书名称">
-            <select id="borrowBookReturnSelect">
+            <input type="text" placeholder="读者名称">
+            <!-- <select id="borrowBookReturnSelect">
               <option value="">归还类型 请选择</option>
-              <option value="未归还">未归还</option>
-              <option value="待确认">待确认</option>
-              <option value="已归还">已归还</option>
-            </select>
+              <option value="0">未归还</option>
+              <option value="1">待确认</option>
+              <option value="2">已归还</option>
+            </select> -->
             <select   id="borrowBookTypeSelect">
               <option value=null>图书类型 请选择</option>
             </select>
@@ -121,7 +121,6 @@
                 <th>图书类别</th>
                 <th>开始时间</th>
                 <th>应还时间</th>
-                <th>还书时间</th>
                 <th>操作</th>
               </tr>
             </thead>
@@ -236,7 +235,7 @@
           <table class="book-table">
             <thead>
               <tr>
-                <th><input type="checkbox"></th>
+                <!-- <th><input type="checkbox"></th> -->
                 <th>图书名称</th>
                 <th>出版社信息</th>
                 <th>版本信息</th>
@@ -837,12 +836,12 @@
           <div class="search-bar" id="searchBar7">
             <!-- <input type="text" placeholder="借书卡"> -->
             <input type="text" placeholder="图书名称">
-            <select id="borrowRBookReturnSelect">
+            <!-- <select id="borrowRBookReturnSelect">
               <option value="">归还类型 请选择</option>
               <option value="未归还">未归还</option>
               <option value="待确认">待确认</option>
               <option value="已归还">已归还</option>
-            </select>
+            </select> -->
             <select   id="borrowRBookTypeSelect">
               <option value=null>图书类型 请选择</option>
             </select>
@@ -863,7 +862,7 @@
                 <th>图书类别</th>
                 <th>开始时间</th>
                 <th>应还时间</th>
-                <th>还书时间</th>
+                
                 <th>操作</th>
               </tr>
             </thead>

@@ -29,6 +29,7 @@ const toPageIndex7 = pagination7.querySelector('.toPageIndex')
 const pageConfirmBtn7 = pagination7.querySelector('.page-confirm')
 const pageSelect7 = pagination7.querySelector('select')
 const totalNumArea7 = pagination7.querySelector('.totalNum')
+const operationTh=document.querySelector('#contain7 .book-table thead th:last-child')
 let targetRBorrowName
 let targetRBorrowType
 let arr7
@@ -98,6 +99,7 @@ searchRBorrowBtn.addEventListener('click', function () {
     // console.log(targetUserName)
     tpage7 = 1
     pageIndex7.value = tpage7
+    operationTh.textContent='状态'
     render7()
 })
 
@@ -188,7 +190,7 @@ function render7() {
            <td id='bookType'>${ele.categoryName}</td>
             <td id='borrowTime'>${ele.borrowTime==null?'未开始':ele.borrowTime}</td>
             <td>${ele.endTime==null?'未开始':ele.endTime}</td>
-            <td id='returnTime'>${ele.returnTime==null?'未开始':ele.returnTime}</td>
+            
             <td>
               <button class="btn-abnormal-return">修改</button><button class="btn-delete-record">删除</button>
             </td>
@@ -259,9 +261,9 @@ function render7() {
                  <td id='bookType'>${ele.categoryName}</td>
                   <td id='borrowTime'>${ele.borrowTime}</td>
                   <td>${ele.endTime}</td>
-                  <td id='returnTime'>${ele.returnTime}</td>
+                  
                   <td>
-                    <button class="btn-abnormal-return">修改</button><button class="btn-delete-record">删除</button>
+                    <button class="btn-abnormal-return">还书</button>
                   </td>
                 </tr>
                 `
@@ -395,19 +397,19 @@ if (localStorage.getItem('token') == 'user')
 
 tbody7.addEventListener('click', function (e) {
     // 获取所有删除按钮
-    if (e.target.classList.contains('btn-delete-record')) {
-        const row = e.target.closest('tr');
-        const id = row.dataset.id
-        // 添加删除动画效果
-        row.style.transition = 'all 0.3s ease';
-        row.style.opacity = '0';
-        row.style.transform = 'translateX(50px)';
-        setTimeout(() => {
-            arr7.splice(id, 1)
-            render7()
-            localStorage.setItem('borrowData', JSON.stringify(arr7))
-        }, 300);
-    }
+    // if (e.target.classList.contains('btn-delete-record')) {
+    //     const row = e.target.closest('tr');
+    //     const id = row.dataset.id
+    //     // 添加删除动画效果
+    //     row.style.transition = 'all 0.3s ease';
+    //     row.style.opacity = '0';
+    //     row.style.transform = 'translateX(50px)';
+    //     setTimeout(() => {
+    //         arr7.splice(id, 1)
+    //         render7()
+    //         localStorage.setItem('borrowData', JSON.stringify(arr7))
+    //     }, 300);
+    // }
     if (e.target.classList.contains('btn-abnormal-return')) {
         if(!isRBorrow){
             console.log("已经点击了归还")
