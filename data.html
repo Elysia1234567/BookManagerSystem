@@ -38,16 +38,16 @@
               </div>
               <div class="form-item">
                 <label>性别</label>
-                <label class="male-label"><input type="radio" name="gender" class="gender" value="0">男</label>
-                <label class="male-label"><input type="radio" name="gender" class="gender" value="1">女</label>
+                <label class="male-label"><input type="radio" name="gender" class="gender" value="男">男</label>
+                <label class="male-label"><input type="radio" name="gender" class="gender" value="女">女</label>
               </div>
               <div class="form-item">
-                <label for="nickname">手机号</label>
-                <input id="nickname" name="nickname" class="nickname" type="text" placeholder="请输入手机号" autocomplete="off">
+                <label for="phone">手机号</label>
+                <input id="phone" name="nickname" class="nickname" type="text" placeholder="请输入手机号" autocomplete="off">
               </div>
               <div class="form-item">
-                <label for="nickname">密码</label>
-                <input id="nickname" name="nickname" class="nickname" type="text" placeholder="请输入密码" autocomplete="off">
+                <label for="password">密码</label>
+                <input id="password"  name="nickname" class="nickname" type="text" placeholder="请输入密码" autocomplete="off">
               </div>
               <button class="submit">提交</button>
             </form>
@@ -82,14 +82,48 @@
             <div class="spoke"></div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-         $(window).on("load", function () {
-                $(".loader-wrap").fadeOut("slow")
-            })
-            const leftArrow = document.querySelector('.left-arrow')
-            leftArrow.addEventListener('click', function () {
-                window.location.href = './main.html'
-            })
+        const email = document.getElementById('email').value;
+          const nickname = document.getElementById('nickname').value;
+          // 性别需要特殊处理，因为是单选框，找被选中的那个
+          const gender = document.querySelector('input[name="gender"]:checked')?.value;
+          // 注意：你 HTML 里“手机号”“密码”的 id 和 name 重复用了 nickname，这里得修正，假设改成对应 id
+          const phone = document.getElementById('phone').value;
+          const password = document.getElementById('password').value;
+          const submitBtn=document.querySelector('.submit')
+          const editData={
+              'name':nickname,
+              'password':password,
+              'sex':gender,
+              'phone':phone
+          };
+          submitBtn.addEventListener('click',function(){
+            if(localStorage.getItem('token')=='user'){
+            axios({
+            url: 'http://localhost:8088/user/user',
+            method: 'put',
+            headers:{
+              "Content-Type":"application/json",
+              'userToken':`${localStorage.getItem('id-token')}`
+            },
+            data:JSON.stringify(editData)
+          }).then(result => {
+              console.log("已经修改了用户信息")
+          }).catch(error => {
+            console.log(error)
+            //alert(error.response.data.message)
+          })
+          }
+          })
+          
+          $(window).on("load", function () {
+            $(".loader-wrap").fadeOut("slow")
+          })
+          const leftArrow = document.querySelector('.left-arrow')
+          leftArrow.addEventListener('click', function () {
+            window.location.href = './main.html'
+          })
     </script>
 </body>
 </html>

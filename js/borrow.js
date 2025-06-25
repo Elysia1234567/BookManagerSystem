@@ -394,6 +394,7 @@ fixBorrowsubmitBtn.addEventListener('click',function(e){
 tbody1.addEventListener('click', function(e) {
   // 获取所有通过按钮
   if(e.target.classList.contains('btn-delete-record')){
+    if(isBorrow){
       const row = e.target.closest('tr');
       const id=row.dataset.id
       // 添加删除动画效果
@@ -405,30 +406,60 @@ tbody1.addEventListener('click', function(e) {
         render1()
         localStorage.setItem('borrowData',JSON.stringify(arr1))
       }, 300);
+    }
+      
   }
   if(e.target.classList.contains('btn-abnormal-return')){
-    currentEditRow1 = e.target.closest('tr');
-    const id=currentEditRow1.dataset.borrowid
-    axios({
-      url:`http://localhost:8088/employee/borrow/allow/${id}`,
-      method:'post',
-      headers: {
-          "Content-Type":"application/json",
-        'employeeToken': `${localStorage.getItem('id-token')}`
-      }
-      // params:{
-      //   id:currentEditRow1.dataset.borrowid
-      // }
-      
-      
-  }).then(result=>{
-      render1()
-      
-      
-  }).catch(error=>{
-      console.log(error)
-      //alert(error.response.data.message)
-      alert('网络连接错误')
-  })
+    if (isBorrow) {
+      currentEditRow1 = e.target.closest('tr');
+      const id = currentEditRow1.dataset.borrowid
+      axios({
+        url: `http://localhost:8088/employee/borrow/allow/${id}`,
+        method: 'post',
+        headers: {
+          "Content-Type": "application/json",
+          'employeeToken': `${localStorage.getItem('id-token')}`
+        }
+        // params:{
+        //   id:currentEditRow1.dataset.borrowid
+        // }
+
+
+      }).then(result => {
+        render1()
+
+
+      }).catch(error => {
+        console.log(error)
+        //alert(error.response.data.message)
+        alert('网络连接错误')
+      })
+    }else{
+      console.log("已经通过了还书")
+      currentEditRow1 = e.target.closest('tr');
+      const id = currentEditRow1.dataset.borrowid
+      axios({
+        url: `http://localhost:8088/employee/back/allow/${id}`,
+        method: 'post',
+        headers: {
+          "Content-Type": "application/json",
+          'employeeToken': `${localStorage.getItem('id-token')}`
+        }
+        // params:{
+        //   id:currentEditRow1.dataset.borrowid
+        // }
+
+
+      }).then(result => {
+        render1()
+
+
+      }).catch(error => {
+        console.log(error)
+        //alert(error.response.data.message)
+        alert('网络连接错误')
+      })
+    }
+    
   }
 });

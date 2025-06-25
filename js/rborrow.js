@@ -409,9 +409,32 @@ tbody7.addEventListener('click', function (e) {
         }, 300);
     }
     if (e.target.classList.contains('btn-abnormal-return')) {
-        currentEditRow7 = e.target.closest('tr');
-        console.log(currentEditRow7)
-        // const typeContent=currentEditRow3.querySelector('#tableContent').textContent
-        fixRBorrowModal.style.display = 'block'
+        if(!isRBorrow){
+            console.log("已经点击了归还")
+            currentEditRow7 = e.target.closest('tr');
+            const borrowId=currentEditRow7.dataset.borrowid
+            axios({
+                url:`http://localhost:8088/user/back/add/${borrowId}`,
+                method:'post',
+                headers: {
+                    "Content-Type":"application/json",
+                  'userToken': `${localStorage.getItem('id-token')}`
+                },
+                
+                
+            }).then(result=>{
+                render7()
+                
+                
+            }).catch(error=>{
+                console.log(error)
+                //alert(error.response.data.message)
+                alert('网络连接错误')
+            })
+        }
+        
+        // console.log(currentEditRow7)
+        // // const typeContent=currentEditRow3.querySelector('#tableContent').textContent
+        // fixRBorrowModal.style.display = 'block'
     }
 });

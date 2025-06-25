@@ -351,8 +351,10 @@ render8()
 // });
 
 tbody8.addEventListener('click', function(e) {
-  // 获取所有删除按钮
+  // 获取所有借书按钮
+
   if(e.target.classList.contains('btn-abnormal-return')){
+    console.log('已经点击了借书按钮')
       const row = e.target.closest('tr');
       const bookId=row.dataset.bookid
       //console.log(id)
@@ -368,6 +370,7 @@ tbody8.addEventListener('click', function(e) {
     }).then(result=>{
         render7()
         render8()
+        alert("借书成功")
         
     }).catch(error=>{
         console.log(error)
