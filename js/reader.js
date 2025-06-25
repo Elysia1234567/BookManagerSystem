@@ -3,6 +3,10 @@ const addReaderModal = document.querySelector('#addReaderModal')
 const readercancelBtn=document.querySelector('#reader-cancelBtn')
 const readersubmitBtn=document.querySelector('#reader-submitBtn')
 const fixReaderModal = document.querySelector('#fixReaderModal')
+const readerPwd=fixReaderModal.querySelector('[placeholder=请输入读者密码]')
+const readerName=fixReaderModal.querySelector('[placeholder=请输入读者名称]')
+const readerPhone=fixReaderModal.querySelector('[placeholder=请输入读者电话号码]')
+const readerSexRadio=fixReaderModal.querySelector('input[name="gender"]:checked')
 const fixReaderForm=document.querySelector('#fixReaderForm')
 const fixReadercancelBtn=document.querySelector('#fix-reader-cancelBtn')
 const fixReadersubmitBtn=document.querySelector('#fix-reader-submitBtn')
@@ -97,18 +101,55 @@ fixReadercancelBtn.addEventListener('click',function(){
 //修改类型的保存按钮
 fixReadersubmitBtn.addEventListener('click',function(e){
     e.preventDefault()
-    const newContent=fnormal.value
-    if(!newContent){
+    
+    if(!readerName.value||!readerPhone.value||!readerPwd.value){
       alert('输入的内容不能为空')
     }else{
       if(currentEditRow3){
-        currentEditRow3.querySelector('#normal').textContent=newContent
+        const readerid=currentEditRow3.dataset.userid
+        const requestData={
+          'id':readerid,
+          'password':readerPwd.value,
+          'name':readerName.value,
+          'phone':readerPhone.value,
+          'sex':readerSexRadio.value
+        }
+        axios({
+          url: 'http://localhost:8088/admin/user',
+          method: 'put',
+          headers: {
+            "Content-Type":"application/json",
+            'adminToken': `${localStorage.getItem('id-token')}`
+          },
+          data: JSON.stringify(requestData)
+        }).then(result => {
+          //console.log(result)
+          if (result.data.code == '1') {
+            // arr6.push({
+            //   content:EmpName.value,
+            // })
+            render3()
+            fixReaderForm.reset()
+            // localStorage.setItem('adminData',JSON.stringify(arr6))
+            // 隐藏弹窗
+            fixReaderModal.style.display = 'none';
+          }
+          else {
+            alert('新增失败')
+          }
+  
+        }).catch(error => {
+          //console.log(error)
+  
+          //alert(error.response.data.message)
+          alert('网络连接错误')
+        })
       }
-      fixReaderModal.style.display='none'
-      const id=currentEditRow3.dataset.id
-      arr3[id].normal=newContent
-      render3()
-      localStorage.setItem('readerData',JSON.stringify(arr3))
+      // fixReaderModal.style.display='none'
+      // const id=currentEditRow3.dataset.id
+      // arr3[id].normal=newContent
+      // render3()
+      
     }
   })  
 
@@ -215,7 +256,7 @@ tbody3.addEventListener('click', function(e) {
         currentEditRow3 = e.target.closest('tr');
         //console.log(currentEditRow3)
         // const typeContent=currentEditRow3.querySelector('#tableContent').textContent
-        fnormal.value=currentEditRow3.querySelector('#normal').textContent
+        // fnormal.value=currentEditRow3.querySelector('#normal').textContent
         fixReaderModal.style.display='block'
     }
   });

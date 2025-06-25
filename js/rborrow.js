@@ -42,7 +42,7 @@ let isRBorrow = true
 let currentEditRow7 //存储当前正在编辑的行
 
 if (localStorage.getItem('token') == 'user') {
-
+    operationTh.textContent='状态'
     axios({
         url: `http://localhost:8088/user/category/list`,
         method: 'get',
@@ -53,12 +53,12 @@ if (localStorage.getItem('token') == 'user') {
     }).then(result => {
         //console.log(result)
         result.data.data.forEach((element, index) => {
-            //console.log(element)
+            console.log(element)
             const option1 = document.createElement('option');
 
 
-            option1.value = element;
-            option1.textContent = element;
+            option1.value = element.name;
+            option1.textContent = element.name;
 
 
             option1.dataset.id = index + 1
@@ -76,6 +76,7 @@ if (localStorage.getItem('token') == 'user') {
 
 borrowRBookTypeSelect.addEventListener('change', function () {
     const selectedOption = this.options[this.selectedIndex]
+    console.log(selectedOption.value)
     targetRBorrowType = selectedOption.value
 
 })
@@ -84,6 +85,7 @@ rAddBorrowBtn.addEventListener('click', function () {
     isRBorrow = true
     tpage7 = 1
     pageIndex7.value = tpage7
+    operationTh.textContent='状态'
     render7()
 })
 
@@ -91,6 +93,7 @@ rAddReturnBtn.addEventListener('click', function () {
     isRBorrow = false
     tpage7 = 1
     pageIndex7.value = tpage7
+    operationTh.textContent='操作'
     render7()
 })
 
@@ -99,7 +102,7 @@ searchRBorrowBtn.addEventListener('click', function () {
     // console.log(targetUserName)
     tpage7 = 1
     pageIndex7.value = tpage7
-    operationTh.textContent='状态'
+    alert("成功搜查")
     render7()
 })
 
@@ -147,7 +150,7 @@ function render7() {
                 'userToken': `${localStorage.getItem('id-token')}`
             },
             params: {
-                // userName: targetRBorrowName,
+                bookName: targetRBorrowName,
                 categoryName: targetRBorrowType,
                 page: tpage7,
                 pageSize: pageSize7,
@@ -176,7 +179,8 @@ function render7() {
                         userName: result.data.data.records[i].userName,
                         borrowTime:result.data.data.records[i].startTime,
                         endTime:result.data.data.records[i].returnTime,
-                        returnTime:result.data.data.records[i].endTime
+                        returnTime:result.data.data.records[i].endTime,
+                        status:result.data.data.records[i].status
                     })
                 }
                 //console.log(arr6)
@@ -192,7 +196,7 @@ function render7() {
             <td>${ele.endTime==null?'未开始':ele.endTime}</td>
             
             <td>
-              <button class="btn-abnormal-return">修改</button><button class="btn-delete-record">删除</button>
+              ${ele.status==1?'已通过':"未通过"}
             </td>
           </tr>
           `
@@ -247,7 +251,9 @@ function render7() {
                             edition: result.data.data.records[i].edition,
                             bookName: result.data.data.records[i].bookName,
                             publish: result.data.data.records[i].publish,
-                            userName: result.data.data.records[i].userName
+                            userName: result.data.data.records[i].userName,
+                            borrowTime:result.data.data.records[i].startTime,
+                            endTime:result.data.data.records[i].returnTime
                         })
                     }
                     //console.log(arr6)
