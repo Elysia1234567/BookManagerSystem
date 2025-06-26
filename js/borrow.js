@@ -270,7 +270,7 @@ function render1() {
            <td id='bookType'>${ele.categoryName}</td>
             <td id='borrowTime'>${ele.startTime}</td>
             <td>${ele.returnTime}</td>
-            <td id='returnTime'>${ele.endTime}</td>
+           
             <td>
               <button class="btn-abnormal-return">通过</button><button class="btn-delete-record">拒绝</button>
             </td>
