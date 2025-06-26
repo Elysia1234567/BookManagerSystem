@@ -42,7 +42,7 @@
             <img src="images\logo1.png" alt="用户头像">
             <div class="user-details">
               <h3>以撒</h3>
-              <p>admin@library.com</p>
+              <!-- <p>admin@library.com</p> -->
             </div>
           </div>
           <hr>
@@ -1176,7 +1176,7 @@
           })
         } else if (token == 'employee') {
           axios({
-            url: 'http://localhost:8088/employee/logout',
+            url: 'http://localhost:8088/employee/employee/logout',
             method: 'post',
             headers:{
               "Content-Type":"application/json",
@@ -1219,7 +1219,25 @@
     if(document.querySelector('.nav .show')!=null){
       document.querySelector('.nav .show').classList.remove('show')
     }
-    if(token=='admin'){
+    let creator
+    if(token=='admin'){{
+      axios({
+        url: `http://localhost:8088/admin/admin`,
+        method: 'get',
+        headers: {
+          'adminToken': `${localStorage.getItem('id-token')}`
+        },
+
+      }).then(result=>{
+        console.log(result)
+        creator=result.data.data.name
+        document.querySelector('.user-avatar p').textContent=creator
+        document.querySelector('.user-details h3').textContent=creator
+        //document.querySelector('.prew').src=localStorage.getItem(`${creator}`)==null?"images/logo1.png":localStorage.getItem(`${creator}`)
+      }).catch(error=>{
+        console.log(error)
+      })
+    }
       const personalLi = document.querySelector('li a.person-data').parentNode;
       const settingLi = document.querySelector('li a i.fa-cog').parentNode.parentNode; 
       // 隐藏
@@ -1228,19 +1246,57 @@
       document.querySelector('.nav #adminNav').classList.add('show')
       showNavs.classList.add('show')
     }else if(token=='employee'){
+      axios({
+        url: `http://localhost:8088/employee/employee`,
+        method: 'get',
+        headers: {
+          'employeeToken': `${localStorage.getItem('id-token')}`
+        },
+
+      }).then(result=>{
+        console.log(result)
+        creator=result.data.data.name
+        document.querySelector('.user-avatar p').textContent=creator
+        document.querySelector('.user-details h3').textContent=creator
+        //document.querySelector('.prew').src=localStorage.getItem(`${creator}`)==null?"images/logo1.png":localStorage.getItem(`${creator}`)
+      }).catch(error=>{
+        console.log(error)
+      })
       const personalLi = document.querySelector('li a.person-data').parentNode;
       const settingLi = document.querySelector('li a i.fa-cog').parentNode.parentNode; 
       // 隐藏
       personalLi.style.display = "none";
       settingLi.style.display = "none";
+      //document.querySelector('.user-avatar')
       document.querySelector('.nav #empNav').classList.add('show')
       empshowNavs.classList.add('show')
     }else if(token=='user'){
+      axios({
+        url: `http://localhost:8088/user/user`,
+        method: 'get',
+        headers: {
+          'userToken': `${localStorage.getItem('id-token')}`
+        },
+
+      }).then(result=>{
+        console.log(result)
+        creator=result.data.data.name
+        console.log(creator)
+        document.querySelector('.user-avatar img').src=localStorage.getItem(`${creator}`)==null?"images/logo1.png":localStorage.getItem(`${creator}`)
+      document.querySelector('.user-avatar p').textContent=creator
+      document.querySelector('.user-profile img').src=localStorage.getItem(`${creator}`)==null?"images/logo1.png":localStorage.getItem(`${creator}`)
+      document.querySelector('.user-details h3').textContent=creator
+        //document.querySelector('.prew').src=localStorage.getItem(`${creator}`)==null?"images/logo1.png":localStorage.getItem(`${creator}`)
+      }).catch(error=>{
+        console.log(error)
+      })
       const personalLi = document.querySelector('li a.person-data').parentNode;
       const settingLi = document.querySelector('li a i.fa-cog').parentNode.parentNode; 
       // 隐藏
       personalLi.style.display = "block";
-      settingLi.style.display = "block";
+      settingLi.style.display = "none";
+     
+      
       document.querySelector('.nav #readerNav').classList.add('show')
       readershowNavs.classList.add('show')
     }

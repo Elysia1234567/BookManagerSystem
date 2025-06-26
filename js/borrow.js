@@ -43,37 +43,7 @@ let isBorrow=true
 
 let currentEditRow1 //存储当前正在编辑的行
 
-if(localStorage.getItem('token')=='employee'){
-  axios({
-    url:`http://localhost:8088/employee/category/list`,
-    method:'get',
-    headers: {
-      'employeeToken': `${localStorage.getItem('id-token')}`
-    }
-   
-}).then(result=>{
-    //console.log(result)
-    result.data.data.forEach((element,index) => {
-      //console.log(element)
-      const option1 = document.createElement('option'); 
-      
-      
-      option1.value = element;
-      option1.textContent = element;
-     
 
-      option1.dataset.id=index+1
-     
-  
-      borrowBookTypeSelect.appendChild(option1); 
-      
-    });
-}).catch(error=>{
-    console.log(error)
-    //alert(error.response.data.message)
-    alert('网络连接错误')
-})
-}
 
 borrowBookTypeSelect.addEventListener('change',function(){
   const selectedOption=this.options[this.selectedIndex]
@@ -146,6 +116,37 @@ pageSelect1.addEventListener('change',function(){
 })
 
 function render1() {
+  if(localStorage.getItem('token')=='employee'){
+    axios({
+      url:`http://localhost:8088/employee/category/list`,
+      method:'get',
+      headers: {
+        'employeeToken': `${localStorage.getItem('id-token')}`
+      }
+     
+  }).then(result=>{
+      //console.log(result)
+      result.data.data.forEach((element,index) => {
+        //console.log(element)
+        const option1 = document.createElement('option'); 
+        
+        
+        option1.value = element;
+        option1.textContent = element;
+       
+  
+        option1.dataset.id=index+1
+       
+    
+        borrowBookTypeSelect.appendChild(option1); 
+        
+      });
+  }).catch(error=>{
+      console.log(error)
+      //alert(error.response.data.message)
+      alert('网络连接错误')
+  })
+  }
   if(isBorrow)
   {
     axios({
@@ -272,7 +273,7 @@ function render1() {
             <td>${ele.returnTime}</td>
            
             <td>
-              <button class="btn-abnormal-return">通过</button><button class="btn-delete-record">拒绝</button>
+              <button class="btn-abnormal-return">通过</button>
             </td>
           </tr>
           `

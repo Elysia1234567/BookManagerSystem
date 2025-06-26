@@ -53,7 +53,7 @@ if (localStorage.getItem('token') == 'user') {
     }).then(result => {
         //console.log(result)
         result.data.data.forEach((element, index) => {
-            console.log(element)
+            //console.log(element)
             const option1 = document.createElement('option');
 
 

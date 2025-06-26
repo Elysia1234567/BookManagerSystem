@@ -182,6 +182,8 @@ fixTypesubmitBtn.addEventListener('click',function(e){
           // arr4.push({
           //   content:textArea4.value,
           // })
+          render1()
+          render2()
           render4()
           addTypeForm.reset()
           // 隐藏弹窗
@@ -231,6 +233,8 @@ typesubmitBtn.addEventListener('click', function (e) {
           // arr4.push({
           //   content:textArea4.value,
           // })
+          render1()
+          render2()
           render4()
           addTypeForm.reset()
           // 隐藏弹窗

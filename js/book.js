@@ -53,43 +53,7 @@ let totalNum2
 let limitPage2
 let currentEditRow2 //存储当前正在编辑的行
 
-if(localStorage.getItem('token')=='employee'){
-  axios({
-    url:`http://localhost:8088/employee/category/list`,
-    method:'get',
-    headers: {
-      'employeeToken': `${localStorage.getItem('id-token')}`
-    }
-   
-}).then(result=>{
-    //console.log(result)
-    result.data.data.forEach((element,index) => {
-      //console.log(element)
-      const option1 = document.createElement('option'); 
-      const option2 = document.createElement('option');
-      const option3 = document.createElement('option');
-      
-      option1.value = element;
-      option1.textContent = element;
-      option2.value = element;
-      option2.textContent = element;
-      option3.value = element;
-      option3.textContent = element;
 
-      option1.dataset.id=index+1
-      option2.dataset.id=index+1
-      option3.dataset.id=index+1
-  
-      bookTypeSelect.appendChild(option1); 
-      bookCategory.appendChild(option2); 
-      fbookCategory.appendChild(option3); 
-    });
-}).catch(error=>{
-    console.log(error)
-    //alert(error.response.data.message)
-    alert('网络连接错误')
-})
-}
 
 bookTypeSelect.addEventListener('change',function(){
   const selectedOption=this.options[this.selectedIndex]
@@ -139,6 +103,43 @@ pageSelect2.addEventListener('change',function(){
     render2()
 })
 function render2() {
+  if(localStorage.getItem('token')=='employee'){
+    axios({
+      url:`http://localhost:8088/employee/category/list`,
+      method:'get',
+      headers: {
+        'employeeToken': `${localStorage.getItem('id-token')}`
+      }
+     
+  }).then(result=>{
+      //console.log(result)
+      result.data.data.forEach((element,index) => {
+        //console.log(element)
+        const option1 = document.createElement('option'); 
+        const option2 = document.createElement('option');
+        const option3 = document.createElement('option');
+        
+        option1.value = element;
+        option1.textContent = element;
+        option2.value = element;
+        option2.textContent = element;
+        option3.value = element;
+        option3.textContent = element;
+  
+        option1.dataset.id=index+1
+        option2.dataset.id=index+1
+        option3.dataset.id=index+1
+    
+        bookTypeSelect.appendChild(option1); 
+        bookCategory.appendChild(option2); 
+        fbookCategory.appendChild(option3); 
+      });
+  }).catch(error=>{
+      console.log(error)
+      //alert(error.response.data.message)
+      alert('网络连接错误')
+  })
+  }
   axios({
     url:`http://localhost:8088/employee/book/page`,
     method:'get',
