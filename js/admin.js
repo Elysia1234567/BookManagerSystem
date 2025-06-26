@@ -45,11 +45,16 @@ addAdminBtn.addEventListener('click', function () {
 window.addEventListener('click', function (event) {
     if (event.target === addAdminModal) {
         addAdminModal.style.display = 'none';
+        addAdminForm.reset()
+    }else if(event.target === fixAdminModal){
+      fixAdminModal.style.display = 'none';
+      fixAdminForm.reset()
     }
 });
 //取消按钮
 admincancelBtn.addEventListener('click', function () {
     addAdminModal.style.display = 'none';
+    addAdminForm.reset()
 });
 
 searchEmpBtn.addEventListener('click',function(){
@@ -96,6 +101,7 @@ pageSelect6.addEventListener('change',function(){
 
 fixAdmincancelBtn.addEventListener('click',function(){
   fixAdminModal.style.display = 'none'
+  fixAdminForm.reset()
 })
 
 fixAdminsubmitBtn.addEventListener('click',function(e){
@@ -108,48 +114,54 @@ fixAdminsubmitBtn.addEventListener('click',function(e){
   if(!nfEmpName||!nfEmpSexRadio||!nfEmppwd||!nfEmpphone){
     alert('输入的内容不能为空')
   }else{
-    if(currentEditRow6){
-      const empid=currentEditRow6.dataset.empid
-      console.log(empid)
-      const requestData = {
-        'id': empid,
-        'password': nfEmppwd,
-        'name': nfEmpName,
-        'phone': nfEmpphone,
-        'sex': nfEmpSexRadio
+    const isNameValid=verifyName(nfEmpName)
+      const isPwdValid=verifyPwd(nfEmppwd)
+      const isPhoneValid=verifyPhone(nfEmpphone)
+      if(isNameValid&&isPwdValid&&isPhoneValid){
+        if(currentEditRow6){
+          const empid=currentEditRow6.dataset.empid
+          console.log(empid)
+          const requestData = {
+            'id': empid,
+            'password': nfEmppwd,
+            'name': nfEmpName,
+            'phone': nfEmpphone,
+            'sex': nfEmpSexRadio
+          }
+          console.log(requestData)
+          axios({
+            url: 'http://localhost:8088/admin/employee',
+            method: 'put',
+            headers: {
+              "Content-Type":"application/json",
+              'adminToken': `${localStorage.getItem('id-token')}`
+            },
+            data: JSON.stringify(requestData)
+          }).then(result => {
+            //console.log(result)
+            if (result.data.code == '1') {
+              // arr6.push({
+              //   content:EmpName.value,
+              // })
+              render6()
+              fixAdminForm.reset()
+              // localStorage.setItem('adminData',JSON.stringify(arr6))
+              // 隐藏弹窗
+              fixAdminModal.style.display = 'none';
+            }
+            else {
+              alert(result.data.msg)
+            }
+    
+          }).catch(error => {
+            //console.log(error)
+    
+            //alert(error.response.data.message)
+            alert('网络连接错误')
+          })
+        }
       }
-      console.log(requestData)
-      axios({
-        url: 'http://localhost:8088/admin/employee',
-        method: 'put',
-        headers: {
-          "Content-Type":"application/json",
-          'adminToken': `${localStorage.getItem('id-token')}`
-        },
-        data: JSON.stringify(requestData)
-      }).then(result => {
-        //console.log(result)
-        if (result.data.code == '1') {
-          // arr6.push({
-          //   content:EmpName.value,
-          // })
-          render6()
-          fixAdminForm.reset()
-          // localStorage.setItem('adminData',JSON.stringify(arr6))
-          // 隐藏弹窗
-          fixAdminModal.style.display = 'none';
-        }
-        else {
-          alert(result.data.msg)
-        }
-
-      }).catch(error => {
-        //console.log(error)
-
-        //alert(error.response.data.message)
-        alert('网络连接错误')
-      })
-    }
+    
     
   }
 })
@@ -159,7 +171,11 @@ adminsubmitBtn.addEventListener('click', function (e) {
     if(!Emppwd.value||!EmpName.value||!Empphone.value){
       alert('输入的内容不能为空')
     }else{
-      EmpSexRadio=addAdminModal.querySelector('input[name="gender"]:checked')
+      const isNameValid=verifyName(EmpName.value)
+      const isPwdValid=verifyPwd( Emppwd.value)
+      const isPhoneValid=verifyPhone( Empphone.value)
+      if(isNameValid&&isPwdValid&&isPhoneValid){
+        EmpSexRadio=addAdminModal.querySelector('input[name="gender"]:checked')
       const requestData = {
         'id': 0,
         'password': Emppwd.value,
@@ -197,6 +213,8 @@ adminsubmitBtn.addEventListener('click', function (e) {
         //alert(error.response.data.message)
         alert('网络连接错误')
       })
+      }
+      
       
     }
     

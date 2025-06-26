@@ -82,7 +82,7 @@
             <span class="input-icon">
               <i class="fa fa-id-card"></i>
             </span>
-            <input type="email" placeholder="请输入9位学号">
+            <input type="text" placeholder="请输入9位学号">
             <span class="msg"></span>
           </div>
         </div>
@@ -107,7 +107,7 @@
             <span class="input-icon">
               <i class="fa fa-phone"></i>
             </span>
-            <input type="email" placeholder="请输入11位电话号码">
+            <input type="text" placeholder="请输入11位电话号码">
             <span class="msg"></span>
           </div>
         </div>
@@ -318,7 +318,7 @@
             window.location.href = './main.html';
           }
           else {
-            alert('注册失败')
+            alert(result.data.msg)
           }
 
         }).catch(error => {

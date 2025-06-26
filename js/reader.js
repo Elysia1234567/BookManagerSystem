@@ -34,6 +34,7 @@ let currentEditRow3 //存储当前正在编辑的行
 window.addEventListener('click', function (event) {
     if (event.target === fixReaderModal) {
         fixReaderModal.style.display = 'none';
+        fixReaderForm.reset()
     }
     else if (event.target === addReaderModal) {
       addReaderModal.style.display = 'none';
@@ -96,6 +97,7 @@ pageSelect3.addEventListener('change',function(){
 //修改类型的取消按钮
 fixReadercancelBtn.addEventListener('click',function(){
     fixReaderModal.style.display = 'none'
+    fixReaderForm.reset()
   })
 
  
@@ -106,46 +108,52 @@ fixReadersubmitBtn.addEventListener('click',function(e){
     if(!readerName.value||!readerPhone.value||!readerPwd.value){
       alert('输入的内容不能为空')
     }else{
-      if(currentEditRow3){
-        const readerid=currentEditRow3.dataset.userid
-        const requestData={
-          'id':readerid,
-          'password':readerPwd.value,
-          'name':readerName.value,
-          'phone':readerPhone.value,
-          'sex':readerSexRadio.value
+      const isNameValid=verifyName(readerName.value)
+      const isPwdValid=verifyPwd(readerPwd.value)
+      const isPhoneValid=verifyPhone(readerPhone.value)
+      if(isNameValid&&isPwdValid&&isPhoneValid){
+        if(currentEditRow3){
+          const readerid=currentEditRow3.dataset.userid
+          const requestData={
+            'id':readerid,
+            'password':readerPwd.value,
+            'name':readerName.value,
+            'phone':readerPhone.value,
+            'sex':readerSexRadio.value
+          }
+          axios({
+            url: 'http://localhost:8088/admin/user',
+            method: 'put',
+            headers: {
+              "Content-Type":"application/json",
+              'adminToken': `${localStorage.getItem('id-token')}`
+            },
+            data: JSON.stringify(requestData)
+          }).then(result => {
+            //console.log(result)
+            if (result.data.code == '1') {
+              // arr6.push({
+              //   content:EmpName.value,
+              // })
+              render3()
+              fixReaderForm.reset()
+              // localStorage.setItem('adminData',JSON.stringify(arr6))
+              // 隐藏弹窗
+              fixReaderModal.style.display = 'none';
+            }
+            else {
+              alert(result.data.msg)
+            }
+    
+          }).catch(error => {
+            //console.log(error)
+    
+            //alert(error.response.data.message)
+            console.log(error)
+          })
         }
-        axios({
-          url: 'http://localhost:8088/admin/user',
-          method: 'put',
-          headers: {
-            "Content-Type":"application/json",
-            'adminToken': `${localStorage.getItem('id-token')}`
-          },
-          data: JSON.stringify(requestData)
-        }).then(result => {
-          //console.log(result)
-          if (result.data.code == '1') {
-            // arr6.push({
-            //   content:EmpName.value,
-            // })
-            render3()
-            fixReaderForm.reset()
-            // localStorage.setItem('adminData',JSON.stringify(arr6))
-            // 隐藏弹窗
-            fixReaderModal.style.display = 'none';
-          }
-          else {
-            alert('新增失败')
-          }
-  
-        }).catch(error => {
-          //console.log(error)
-  
-          //alert(error.response.data.message)
-          console.log(error)
-        })
       }
+     
       // fixReaderModal.style.display='none'
       // const id=currentEditRow3.dataset.id
       // arr3[id].normal=newContent

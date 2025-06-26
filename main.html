@@ -1092,6 +1092,7 @@
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="./js/general.js"></script>
   <script src="./js/anc.js"></script>
   <script src="./js/type.js"></script>
   <script src="./js/borrow.js"></script>
@@ -1104,6 +1105,7 @@
     $(window).on("load", function () {
       $(".loader-wrap").fadeOut("slow")
     })
+     
     const token=localStorage.getItem('token')
     const user = document.querySelector('.user-info')
     user.addEventListener('mouseenter', function () {
