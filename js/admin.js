@@ -7,14 +7,14 @@ const admintextArea=addAdminModal.querySelector('textarea')
 const fixAdminModal =document.querySelector('#fixAdminModal')
 const fixAdmincancelBtn=document.querySelector('#fix-admin-cancelBtn')
 const fixAdminsubmitBtn=document.querySelector('#fix-admin-submitBtn')
-const Emppwd=addAdminModal.querySelector('[placeholder=请输入员工密码]')
-const EmpName=addAdminModal.querySelector('[placeholder=请输入员工名称]')
-const Empphone=addAdminModal.querySelector('[placeholder=请输入员工电话号码]')
-const EmpSexRadio=addAdminModal.querySelector('input[name="gender"]:checked')
-const fEmppwd=fixAdminModal.querySelector('[placeholder=请输入员工密码]')
-const fEmpName=fixAdminModal.querySelector('[placeholder=请输入员工名称]')
-const fEmpphone=fixAdminModal.querySelector('[placeholder=请输入员工电话号码]')
-const fEmpSexRadio=fixAdminModal.querySelector('input[name="gender"]:checked')
+const Emppwd=addAdminModal.querySelector('#emppsd')
+const EmpName=addAdminModal.querySelector('#empname')
+const Empphone=addAdminModal.querySelector('#empphone')
+let EmpSexRadio=addAdminModal.querySelector('input[name="gender"]:checked')
+const fEmppwd=fixAdminModal.querySelector('#femppsd')
+const fEmpName=fixAdminModal.querySelector('#fempname')
+const fEmpphone=fixAdminModal.querySelector('#fempphone')
+let fEmpSexRadio=fixAdminModal.querySelector('input[name="gender"]:checked')
 const tbody6 = document.querySelector('#contain6 tbody')
 const searchBar6=document.querySelector('#searchBar6')
 const searchEmpName=searchBar6.querySelector('input')
@@ -103,6 +103,7 @@ fixAdminsubmitBtn.addEventListener('click',function(e){
   const nfEmppwd=fEmppwd.value
   const nfEmpName=fEmpName.value
   const nfEmpphone=fEmpphone.value
+  fEmpSexRadio=fixAdminModal.querySelector('input[name="gender"]:checked')
   const nfEmpSexRadio=fEmpSexRadio.value
   if(!nfEmpName||!nfEmpSexRadio||!nfEmppwd||!nfEmpphone){
     alert('输入的内容不能为空')
@@ -112,11 +113,12 @@ fixAdminsubmitBtn.addEventListener('click',function(e){
       console.log(empid)
       const requestData = {
         'id': empid,
-        'password': nfEmppwd.value,
-        'name': nfEmpName.value,
-        'phone': nfEmpphone.value,
-        'sex': nfEmpSexRadio.value
+        'password': nfEmppwd,
+        'name': nfEmpName,
+        'phone': nfEmpphone,
+        'sex': nfEmpSexRadio
       }
+      console.log(requestData)
       axios({
         url: 'http://localhost:8088/admin/employee',
         method: 'put',
@@ -138,7 +140,7 @@ fixAdminsubmitBtn.addEventListener('click',function(e){
           fixAdminModal.style.display = 'none';
         }
         else {
-          alert('新增失败')
+          alert(result.data.msg)
         }
 
       }).catch(error => {
@@ -157,6 +159,7 @@ adminsubmitBtn.addEventListener('click', function (e) {
     if(!Emppwd.value||!EmpName.value||!Empphone.value){
       alert('输入的内容不能为空')
     }else{
+      EmpSexRadio=addAdminModal.querySelector('input[name="gender"]:checked')
       const requestData = {
         'id': 0,
         'password': Emppwd.value,
@@ -185,7 +188,7 @@ adminsubmitBtn.addEventListener('click', function (e) {
           addAdminModal.style.display = 'none';
         }
         else {
-          alert('新增失败')
+          alert(result.data.msg)
         }
 
       }).catch(error => {
@@ -215,7 +218,7 @@ function render6() {
     }
     
 }).then(result=>{
-    // console.log(result)
+     console.log(result)
     if(result.data.code=='1'){
       totalNumArea6.innerHTML=result.data.data.total
       totalNum6=parseInt(result.data.data.total)
@@ -266,6 +269,29 @@ tbody6.addEventListener('click', function(e) {
         row.style.transition = 'all 0.3s ease';
         row.style.opacity = '0';
         row.style.transform = 'translateX(50px)';
+        axios({
+          url:`http://localhost:8088/admin/employee`,
+          method:'delete',
+          headers: {
+            'adminToken': `${localStorage.getItem('id-token')}`
+          },
+          params:{
+            id:row.dataset.empid
+          }
+          
+      }).then(result=>{
+        console.log(result)
+        setTimeout(() => {
+          arr3.splice(id,1)
+          render3()
+         
+        }, 300);
+          
+      }).catch(error=>{
+          console.log(error)
+          //alert(error.response.data.message)
+          alert('网络连接错误')
+      })
         setTimeout(() => {
           arr6.splice(id,1)
           render6()

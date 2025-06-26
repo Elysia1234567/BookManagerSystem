@@ -477,10 +477,10 @@
           <div id="fixReaderModal" class="modal">
             <div class="modal-content">
               <h2>修改读者信息</h2>
-              <form id="fixAdminForm">
+              <form id="fixReaderForm">
                 <div class="form-item">
                   <label for="fempname">读者名称</label>
-                  <input type="text" id="fempname" placeholder="请输入读者名称"></input>
+                  <input type="text" id="fempname" placeholder="请输入读者名称(5~10位，可以包含大小写字母、数字和下划线)"></input>
                 </div>
                 <div class="form-item">
                   <label>性别</label>
@@ -489,17 +489,17 @@
                   <input type="radio" id="male" name="gender" value="男" checked>
                   <label for="male" id="tomale">男</label>
                   <input type="radio" id="female" name="gender" value="女">
-                  <label for="male" id="tofemale">女</label>
+                  <label for="female" id="tofemale">女</label>
                   <span class="msg"></span>
                 
                 </div>
                 <div class="form-item">
                   <label for="femppsd">读者密码</label>
-                  <input type="text" id="femppsd" placeholder="请输入读者密码"></input>
+                  <input type="text" id="femppsd" placeholder="请输入读者密码(5~20位，可以包含大小写字母、数字和下划线)"></input>
                 </div>
                 <div class="form-item">
                   <label for="fempphone">读者电话号码</label>
-                  <input type="text" id="fempphone" placeholder="请输入读者电话号码"></input>
+                  <input type="text" id="fempphone" placeholder="请输入11位电话号码"></input>
                 </div>
                 <div class="btn-container">
                   <button type="button" id="fix-reader-cancelBtn" class="cancelBtn">取消</button>
@@ -782,7 +782,7 @@
               <form id="addAdminForm">
                 <div class="form-item">
                   <label for="empname">员工名称</label>
-                  <input type="text" id="empname" placeholder="请输入员工名称"></input>
+                  <input type="text" id="empname" placeholder="请输入员工名称(5~10位，可以包含大小写字母、数字和下划线)"></input>
                 </div>
                 <div class="form-item">
                   <label>性别</label>
@@ -797,11 +797,11 @@
                 </div>
                 <div class="form-item">
                   <label for="emppsd">员工密码</label>
-                  <input type="text" id="emppsd" placeholder="请输入员工密码"></input>
+                  <input type="text" id="emppsd" placeholder="请输入员工密码(5~20位，可以包含大小写字母、数字和下划线)"></input>
                 </div>
                 <div class="form-item">
                   <label for="empphone">员工电话号码</label>
-                  <input type="text" id="empphone" placeholder="请输入员工电话号码"></input>
+                  <input type="text" id="empphone" placeholder="请输入11位电话号码"></input>
                 </div>
                 <div class="btn-container">
                   <button type="button" id="admin-cancelBtn" class="cancelBtn">取消</button>
@@ -816,7 +816,7 @@
               <form id="fixAdminForm">
                 <div class="form-item">
                   <label for="fempname">员工名称</label>
-                  <input type="text" id="fempname" placeholder="请输入员工名称"></input>
+                  <input type="text" id="fempname" placeholder="请输入员工名称(5~10位，可以包含大小写字母、数字和下划线)"></input>
                 </div>
                 <div class="form-item">
                   <label>性别</label>
@@ -831,11 +831,11 @@
                 </div>
                 <div class="form-item">
                   <label for="femppsd">员工密码</label>
-                  <input type="text" id="femppsd" placeholder="请输入员工密码"></input>
+                  <input type="text" id="femppsd" placeholder="请输入员工密码(5~20位，可以包含大小写字母、数字和下划线)"></input>
                 </div>
                 <div class="form-item">
                   <label for="fempphone">员工电话号码</label>
-                  <input type="text" id="fempphone" placeholder="请输入员工电话号码"></input>
+                  <input type="text" id="fempphone" placeholder="请输入11位电话号码"></input>
                 </div>
                 <div class="btn-container">
                   <button type="button" id="fix-admin-cancelBtn" class="cancelBtn">取消</button>
@@ -1218,12 +1218,27 @@
       document.querySelector('.nav .show').classList.remove('show')
     }
     if(token=='admin'){
+      const personalLi = document.querySelector('li a.person-data').parentNode;
+      const settingLi = document.querySelector('li a i.fa-cog').parentNode.parentNode; 
+      // 隐藏
+      personalLi.style.display = "none";
+      settingLi.style.display = "none";
       document.querySelector('.nav #adminNav').classList.add('show')
       showNavs.classList.add('show')
     }else if(token=='employee'){
+      const personalLi = document.querySelector('li a.person-data').parentNode;
+      const settingLi = document.querySelector('li a i.fa-cog').parentNode.parentNode; 
+      // 隐藏
+      personalLi.style.display = "none";
+      settingLi.style.display = "none";
       document.querySelector('.nav #empNav').classList.add('show')
       empshowNavs.classList.add('show')
     }else if(token=='user'){
+      const personalLi = document.querySelector('li a.person-data').parentNode;
+      const settingLi = document.querySelector('li a i.fa-cog').parentNode.parentNode; 
+      // 隐藏
+      personalLi.style.display = "block";
+      settingLi.style.display = "block";
       document.querySelector('.nav #readerNav').classList.add('show')
       readershowNavs.classList.add('show')
     }

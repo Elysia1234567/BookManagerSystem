@@ -3,10 +3,10 @@ const addReaderModal = document.querySelector('#addReaderModal')
 const readercancelBtn=document.querySelector('#reader-cancelBtn')
 const readersubmitBtn=document.querySelector('#reader-submitBtn')
 const fixReaderModal = document.querySelector('#fixReaderModal')
-const readerPwd=fixReaderModal.querySelector('[placeholder=请输入读者密码]')
-const readerName=fixReaderModal.querySelector('[placeholder=请输入读者名称]')
-const readerPhone=fixReaderModal.querySelector('[placeholder=请输入读者电话号码]')
-const readerSexRadio=fixReaderModal.querySelector('input[name="gender"]:checked')
+const readerPwd=fixReaderModal.querySelector('#femppsd')
+const readerName=fixReaderModal.querySelector('#fempname')
+const readerPhone=fixReaderModal.querySelector('#fempphone')
+let readerSexRadio=fixReaderModal.querySelector('input[name="gender"]:checked')
 const fixReaderForm=document.querySelector('#fixReaderForm')
 const fixReadercancelBtn=document.querySelector('#fix-reader-cancelBtn')
 const fixReadersubmitBtn=document.querySelector('#fix-reader-submitBtn')
@@ -98,10 +98,11 @@ fixReadercancelBtn.addEventListener('click',function(){
     fixReaderModal.style.display = 'none'
   })
 
+ 
 //修改类型的保存按钮
 fixReadersubmitBtn.addEventListener('click',function(e){
     e.preventDefault()
-    
+    readerSexRadio=document.querySelector('input[name="gender"]:checked')
     if(!readerName.value||!readerPhone.value||!readerPwd.value){
       alert('输入的内容不能为空')
     }else{
@@ -142,7 +143,7 @@ fixReadersubmitBtn.addEventListener('click',function(e){
           //console.log(error)
   
           //alert(error.response.data.message)
-          alert('网络连接错误')
+          console.log(error)
         })
       }
       // fixReaderModal.style.display='none'
@@ -224,9 +225,7 @@ tbody3.addEventListener('click', function(e) {
         const row = e.target.closest('tr');
         const id=row.dataset.id
         // 添加删除动画效果
-        row.style.transition = 'all 0.3s ease';
-        row.style.opacity = '0';
-        row.style.transform = 'translateX(50px)';
+        
         axios({
           url:`http://localhost:8088/admin/user`,
           method:'delete',
@@ -238,12 +237,20 @@ tbody3.addEventListener('click', function(e) {
           }
           
       }).then(result=>{
-        console.log(result)
-        setTimeout(() => {
-          arr3.splice(id,1)
-          render3()
-         
-        }, 300);
+        if(result.data.code == '1'){
+          row.style.transition = 'all 0.3s ease';
+        row.style.opacity = '0';
+        row.style.transform = 'translateX(50px)';
+          console.log(result)
+          setTimeout(() => {
+            arr3.splice(id,1)
+            render3()
+           
+          }, 300);
+        }else{
+          alert(result.data.msg)
+        }
+        
           
       }).catch(error=>{
           console.log(error)
