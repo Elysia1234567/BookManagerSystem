@@ -113,6 +113,15 @@ function render2() {
      
   }).then(result=>{
       //console.log(result)
+      while(bookTypeSelect.options.length>1){
+        bookTypeSelect.remove(1)
+      }
+      while(bookCategory.options.length>1){
+        bookCategory.remove(1)
+      }
+      while(fbookCategory.options.length>1){
+        fbookCategory.remove(1)
+      }
       result.data.data.forEach((element,index) => {
         //console.log(element)
         const option1 = document.createElement('option'); 

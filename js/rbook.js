@@ -368,9 +368,14 @@ tbody8.addEventListener('click', function(e) {
         
         
     }).then(result=>{
-        render7()
-        render8()
-        alert("借书成功")
+        if(result.data.code=='1'){
+          render7()
+          render8()
+          alert("已发出借阅申请，请等待通过")
+        }else{
+          alert(result.data.msg)
+        }
+        
         
     }).catch(error=>{
         console.log(error)

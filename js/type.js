@@ -279,6 +279,8 @@ typesubmitBtn.addEventListener('click', function (e) {
         console.log(result)
         setTimeout(() => {
           arr4.splice(id,1)
+          render1()
+          render2()
           render4()
          
         }, 300);

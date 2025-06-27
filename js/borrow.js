@@ -126,6 +126,9 @@ function render1() {
      
   }).then(result=>{
       //console.log(result)
+      while(borrowBookTypeSelect.options.length>1){
+        borrowBookTypeSelect.remove(1)
+      }
       result.data.data.forEach((element,index) => {
         //console.log(element)
         const option1 = document.createElement('option'); 
