@@ -88,7 +88,7 @@ function render4() {
     }
     
 }).then(result=>{
-    //console.log(result)
+    console.log(result)
     if(result.data.code=='1'){
       totalNumArea4.innerHTML=result.data.data.total
       totalNum4=parseInt(result.data.data.total)

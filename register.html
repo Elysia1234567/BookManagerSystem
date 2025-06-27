@@ -71,7 +71,7 @@
             <span class="input-icon">
               <i class="fa fa-user"></i>
             </span>
-            <input type="text" placeholder="请输入6~10位用户名（可以包含大小写字母、数字和下划线）">
+            <input type="text" placeholder="请输入5~10位用户名（可以包含大小写字母、数字和下划线）">
             <span class="msg"></span>
           </div>
         </div>
@@ -118,7 +118,7 @@
             <span class="input-icon">
               <i class="fa fa-lock"></i>
             </span>
-            <input type="password" placeholder="请输入6~20位密码（可以包含大小写字母、数字和下划线）">
+            <input type="password" placeholder="请输入5~20位密码（可以包含大小写字母、数字和下划线）">
             <span class="msg"></span>
           </div>
         </div>
@@ -263,7 +263,7 @@
     const pwd = document.querySelector('[type=password]')
     pwd.addEventListener('change', verifyPwd)
     function verifyPwd() {
-      const reg = /^[a-zA-Z0-9-_]{6,20}$/
+      const reg = /^[a-zA-Z0-9-_]{5,20}$/
       const span = pwd.nextElementSibling
       if (!reg.test(pwd.value)) {
         if (pwd.value == '')

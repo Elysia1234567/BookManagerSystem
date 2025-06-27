@@ -505,7 +505,7 @@ tbody1.addEventListener('click', function(e) {
 
       }).then(result => {
         render1()
-
+        render2()
 
       }).catch(error => {
         console.log(error)
